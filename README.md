@@ -75,7 +75,7 @@ Reactive Streams를 구현한 구현체
 프로세스와 마찬가지로 쓰레드 같은 경우에도 번갈아 가면서 실행이 되기 때문에 컨텍스트의 스위치 비용이 발생한다.
 
 ## Non-Blocking I/O 방식
-![photo_2024-06-11_13-31-14](https://github.com/bckkingkkang/WebFlux/assets/131218470/643f0aec-7c7a-4592-bb1e-486270d22553)
+![photo_2024-06-11_14-09-49](https://github.com/bckkingkkang/WebFlux/assets/131218470/9e72a4a7-37fa-4a3d-a0b4-03ce1dd6bbfc)
 * 작업 쓰레드의 종료와 상관없이 요청을 한 쓰레드는 차단되지 않는다.
 * 적은 수의 쓰레드를 사용하기 때문에 쓰레드 전환 비용이 적게 발생한다.
 * 따라서 CPU 대기 시간 및 사용량에 있어서도 효율적이다.
