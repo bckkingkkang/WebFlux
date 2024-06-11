@@ -96,7 +96,7 @@ Reactive Streams를 구현한 구현체
 ## Spring WebFlux
 * Spring 5부터 지원하는 리액티브 웹 프레임워크
 * 비동기(병렬적 처리) Non-Blocking I/O(입출력) 방식으로 적은 수의 Thread를 사용한다.
-* Reactive Streams의 구현체 중 ㅓ하나의 Reactor에 의존하여 비동기 로직을 구성하고 리액티브 스트림을 제공한다.
+* Reactive Streams의 구현체 중 하나인 Reactor에 의존하여 비동기 로직을 구성하고 리액티브 스트림을 제공한다.
 * Reactor 기반이지만 RxJava 등 다른 리액티브 확장 라이브러리를 쉽게 적용할 수 있다.
 
 ![photo_2024-06-11_15-16-43](https://github.com/bckkingkkang/WebFlux/assets/131218470/16438da3-da82-4887-80fb-3bdf006be080)
@@ -111,4 +111,22 @@ Reactive Streams를 구현한 구현체
 > * 스트리밍 시스템 또는 실시간 시스템
 > * 네트워크 접속이 느린 클라이언트의 요청 처리
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------------------
+참고   
+[Spring MVC vs Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html)     
+[Reactive Microservices With Spring Boot](https://spring.io/reactive)
 
