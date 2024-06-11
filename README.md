@@ -93,3 +93,22 @@ Reactive Streams를 구현한 구현체
 | | 요청에서 응답까지 Fully Non-Blocking이어야 진정한 효과를 발휘한다. |
 |  | 선언형 프로그래밍 |
 
+## Spring WebFlux
+* Spring 5부터 지원하는 리액티브 웹 프레임워크
+* 비동기(병렬적 처리) Non-Blocking I/O(입출력) 방식으로 적은 수의 Thread를 사용한다.
+* Reactive Streams의 구현체 중 ㅓ하나의 Reactor에 의존하여 비동기 로직을 구성하고 리액티브 스트림을 제공한다.
+* Reactor 기반이지만 RxJava 등 다른 리액티브 확장 라이브러리를 쉽게 적용할 수 있다.
+
+![photo_2024-06-11_15-16-43](https://github.com/bckkingkkang/WebFlux/assets/131218470/16438da3-da82-4887-80fb-3bdf006be080)
+
+* Event Loop 방식을 통한 Spring WebFlux의 Non-Blocking Process
+
+![photo_2024-06-11_15-17-52](https://github.com/bckkingkkang/WebFlux/assets/131218470/240899f8-76a7-4946-a41c-f0d620aaaa31)
+
+* Spring WebFlux를 사용하기 적합한 시스템   
+> * Blocking I/O 방식으로 처리하는데 한계가 있는 대량의 요청 트래픽이 발생하는 시스템   
+> * 마이크로 서비스 기반 시스템 `많은 수의 I/O 발생`   
+> * 스트리밍 시스템 또는 실시간 시스템
+> * 네트워크 접속이 느린 클라이언트의 요청 처리
+
+
