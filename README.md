@@ -200,9 +200,20 @@ public class FluxExample4 {
 ```
 </details>
 
+----------------------------------------------------------------------
+## Cold Sequence
+* subscriber의 구독 시점이 달라도 구독을 할 때마다 Publisher가 데이터를 emit하는 과정을 처음부터 다시 시작하는 데이터의 흐름   
 
+![photo_2024-06-12_15-02-17](https://github.com/bckkingkkang/WebFlux/assets/131218470/9b6ea99a-9be2-46ac-85b4-96f833413242)   
+* Subscriber가 구독을 할 때마다 타임라인에 처음부터 emit된 모든 데이터를 받을 수 있다.
+* 시퀀스 타임라인이 구독을 할 때마다 cld sequence가 하나씩 더 생성
 
+## Hot Sequence
+* Subscriber가 구독한 시점의 타임라인부터 emit된 데이터를 받을 수 있다.
 
+![photo_2024-06-12_15-02-15](https://github.com/bckkingkkang/WebFlux/assets/131218470/a5224ea1-fd51-45ae-844d-4fa474bb2aab)
+* Publisher가 데이터를 emit하는 과정이 한 번만 일어나고 Subscriber가 각 구독 시점 이후에 emit된 데이터만 전달받는다.
+* 구독이 여러 번 발생해도 타임라인은 하나만 생성
 
 
 
