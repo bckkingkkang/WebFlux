@@ -111,8 +111,25 @@ Reactive Streams를 구현한 구현체
 > * 스트리밍 시스템 또는 실시간 시스템
 > * 네트워크 접속이 느린 클라이언트의 요청 처리
 
+-----------------------------------------------------------------------------
+## Reactor
+- 리액티브 프로그래밍을 위한 리액티브 라이브러리
+- Reactive Streams 스펙을 구현한 구현체 중 하나이다.
+- Spring 에코 시스템에서 Reactive Stack의 기반이 되며 Spring WebFlux 프레임워크에 포함되어 있다.
 
-
+### [Reactor 특징](https://projectreactor.io/)
+1. Fully Non-Blocking
+   > 클라이언트의 요청을 시작으로 데이터 액세스 레이어를 거쳐서 다시 클라이언트의 Response를 보낼 때까지 Blocking I/O가 전혀 개입하지 않는다는 의미
+2. Functional API(함수형 API)
+   > Functional API를 사용해서 Publisher와 Subsriber 간에 상호작용을 한다.   
+   > reactive 프로그래밍의 특징 : Functional API 사용
+3. Sequences 타입
+   > Reactor에서 데이터를 생산해서 내보내는 퍼블리셔 타입 2가지
+   >> * Mono : 데이터를 0 or 1 건 내보낼 수 있다.
+   >> * Flux : n개 이상의 데이터를 내보낼 수 있다.
+4. Non-Blocking 애플리케이션(대량의 Request) 제작에 특화
+   > 마이크로 서비스에 적합한 라이브러리
+5. backpressure 지원
 
 
 
