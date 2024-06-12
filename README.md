@@ -118,7 +118,7 @@ Reactive Streams를 구현한 구현체
 - Spring 에코 시스템에서 Reactive Stack의 기반이 되며 Spring WebFlux 프레임워크에 포함되어 있다.
 
 ### [Reactor 특징](https://projectreactor.io/)
-1. Fully Non-Blocking
+1. [Fully Non-Blocking](#non-blocking-i/o-방식)
    > 클라이언트의 요청을 시작으로 데이터 액세스 레이어를 거쳐서 다시 클라이언트의 Response를 보낼 때까지 Blocking I/O가 전혀 개입하지 않는다는 의미
 2. Functional API(함수형 API)
    > Functional API를 사용해서 Publisher와 Subsriber 간에 상호작용을 한다.   
