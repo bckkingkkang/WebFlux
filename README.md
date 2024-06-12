@@ -163,6 +163,45 @@ Reactive Streams를 구현한 구현체
 
 ![photo_2024-06-12_13-20-29](https://github.com/bckkingkkang/WebFlux/assets/131218470/64d815bb-9bee-4df4-855c-95161f5c6752)
 
+<details>
+    <summary>Concat / concatWith</summary>   
+
+**ConcatWith** : 앞 쪽에 있는 Publisher와 ConcatWith의 parameter로 입력된 Publisher를 연결
+```java
+@Slf4j
+public class FluxExample3 {
+    public static void main(String[] args) {
+        Flux<Object> flux =
+                // just operator의 경우 null값을 포함할 수 없지만 justOrEmpty의 경우 null 값 포함 가능
+                Mono.justOrEmpty(null)
+                        .concatWith(Mono.justOrEmpty("Jobs"));
+        // ConcatWith 를 이용해서 Mono 와 Mono 를 결합해 새로운 Flux 를 생성할 수 있다.
+        
+       flux.subscribe(data->log.info("# result : {}", data));
+    }
+}
+```   
+**concat** : concat operator의 parameter로 입력된 Publisher 들을 연결
+```java
+@Slf4j
+public class FluxExample4 {
+    public static void main(String[] args) {
+        Flux.concat(
+                Mono.just("Venus"),
+                Flux.just("Earth"),
+                Flux.just("Moon", "Sun"),
+                Flux.just("Mars"))
+                // 하나의 리스트 안에 각각의 데이터들이 담겨 리스트로 전달
+                .collectList()
+                .subscribe(planetList -> log.info("# Solar System : {}", planetList)
+        );
+    }
+}
+```
+</details>
+
+
+
 
 
 
