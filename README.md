@@ -125,8 +125,8 @@ Reactive Streams를 구현한 구현체
    > reactive 프로그래밍의 특징 : Functional API 사용
 3. Sequences 타입
    > Reactor에서 데이터를 생산해서 내보내는 퍼블리셔 타입 2가지
-   >> * Mono : 데이터를 0 or 1 건 내보낼 수 있다.
-   >> * Flux : n개 이상의 데이터를 내보낼 수 있다.
+   >> * [Mono](#mono) : 데이터를 0 or 1 건 내보낼 수 있다.
+   >> * [Flux](#flux) : n개 이상의 데이터를 내보낼 수 있다.
 4. Non-Blocking 애플리케이션(대량의 Request) 제작에 특화
    > 마이크로 서비스에 적합한 라이브러리
 5. backpressure 지원
@@ -146,6 +146,23 @@ Reactive Streams를 구현한 구현체
 1. 퍼블리셔가 데이터를 **생성**
 2. Operator(ex.map)를 사용해서 데이터를 **가공**
 3. 최종적으로 가공한 데이터를 Subscriber에 **전달**
+
+----------------------------------------------------------------------------------
+### Marble Diagram
+: 리액티브 프로그래밍에서 데이터 처리 흐름을 그림으로 시각화해놓은 다이어그램
+
+## Mono
+* 0개 또는 1개의 데이터를 emit하는 Publisher (Compare with RxJava Maybe)
+* 데이터 emit 과정에서 에러가 발생하면 onError signal을 emit한다.
+
+![photo_2024-06-12_13-20-31](https://github.com/bckkingkkang/WebFlux/assets/131218470/68ba274f-8345-4bda-ae2c-4bb5811d2617)
+
+## Flux
+* 0 ~ N개의 데이터를 emit하는 Publisher
+* 데이터 emit 과정에서 에러가 발생하면 onError signal을 emit한다.
+
+![photo_2024-06-12_13-20-29](https://github.com/bckkingkkang/WebFlux/assets/131218470/64d815bb-9bee-4df4-855c-95161f5c6752)
+
 
 
 
