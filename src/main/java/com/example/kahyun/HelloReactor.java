@@ -1,15 +1,17 @@
 package com.example.kahyun;
 
-
 import lombok.extern.slf4j.Slf4j;
+
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
 
 @Slf4j
 public class HelloReactor {
     public static void main(String[] args) {
+
         Mono.just("Hello reactor")
-                .subscribe(message -> System.out.println(message));
+                .subscribe(message -> System.out.println(message));     // downstream
 
         // Flux : 데이터를 생성해서 emit 하는 publisher
         Flux<String> sequence = Flux.just("Hello", "World");
