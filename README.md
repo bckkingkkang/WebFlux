@@ -131,6 +131,23 @@ Reactive Streams를 구현한 구현체
    > 마이크로 서비스에 적합한 라이브러리
 5. backpressure 지원
 
+### Reactor 용어 정의
+* **Publisher** : 발행자, 게시자, 생산자, 방출자 (Emitter)
+* **Subscriber** : 구독자, 소비자
+* **[Emit](https://en.dict.naver.com/#/entry/enko/f6136f8695084091adeb3b60249af579)** : Publisher가 데이터를 내보내는 것
+* **Sequence** : Publisher가 emit하는 데이터의 연속적인 흐름을 정의해놓은 것으로 Operator(연산자) 체인 형태로 정의된다.
+  > Flux, just, map 같은 연산자 체인으로 구성된 코드
+* **subscribe** : Publisher를 통해서 정의된 Sequence를 Subscriber가 구독하는 것
+* **Dispose** : Subscriber가 Sequence 구독을 해지하는 것
+
+![photo_2024-06-12_11-36-34](https://github.com/bckkingkkang/WebFlux/assets/131218470/bef71a06-3f0b-46a4-bb45-ebfe9d7d3fa6)   
+
+### Reactive Programming의 흐름
+1. 퍼블리셔가 데이터를 **생성**
+2. Operator(ex.map)를 사용해서 데이터를 **가공**
+3. 최종적으로 가공한 데이터를 Subscriber에 **전달**
+
+
 
 
 
