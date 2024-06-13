@@ -230,6 +230,21 @@ public class FluxExample4 {
 ![photo_2024-06-12_15-02-17](https://github.com/bckkingkkang/WebFlux/assets/131218470/9b6ea99a-9be2-46ac-85b4-96f833413242)   
 * Subscriber가 구독을 할 때마다 타임라인에 처음부터 emit된 모든 데이터를 받을 수 있다.
 * 시퀀스 타임라인이 구독을 할 때마다 cld sequence가 하나씩 더 생성
+```java
+@Slf4j
+public class ColdSequenceExample {
+    public static void main(String[] args) {
+
+        Flux<String> coldFlux = Flux.fromIterable(Arrays.asList("RED", "YELLOW", "PINK"))
+                .map(String::toLowerCase);
+
+        coldFlux.subscribe(country->log.info("# subscriber1 : {}", country));
+        log.info("-------------------------------");
+        coldFlux.subscribe(country->log.info("# subscriber2 : {}", country));
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/5a86994f-c8fb-4af4-ac71-d7e507a7090d)
 
 ## Hot Sequence
 * Subscriber가 구독한 시점의 타임라인부터 emit된 데이터를 받을 수 있다.
@@ -237,6 +252,29 @@ public class FluxExample4 {
 ![photo_2024-06-12_15-02-15](https://github.com/bckkingkkang/WebFlux/assets/131218470/a5224ea1-fd51-45ae-844d-4fa474bb2aab)
 * Publisher가 데이터를 emit하는 과정이 한 번만 일어나고 Subscriber가 각 구독 시점 이후에 emit된 데이터만 전달받는다.
 * 구독이 여러 번 발생해도 타임라인은 하나만 생성
+```java
+@Slf4j
+public class HotSequence {
+    public static void main(String[] args) throws InterruptedException {
+        Flux<String> concertFlux =
+                Flux.fromStream(Stream.of("A","B","C","D","E"))
+                        .delayElements(Duration.ofSeconds(1)).share();
+        // share -> 원본 Flux를 여러 subscriber가 공유하도록 한다. (cold sequence를 hot sequence로 변환해주는 operator)
+
+        concertFlux.subscribe(code -> log.info("# Subscriber {}", code));
+
+        TimeUnit.SECONDS.sleep(3);
+
+        concertFlux.subscribe(code -> log.info("# Subscriber 2 {}", code));
+
+        TimeUnit.SECONDS.sleep(4);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/4b867798-161b-4436-bb6d-f381fe63d75c)   
+
+
+
 
 
 
