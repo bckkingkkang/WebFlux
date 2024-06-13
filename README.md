@@ -20,6 +20,12 @@
 - **Sequence**
   - [Cold Sequence](#cold-sequence)
   - [Hot Sequence](#hot-sequence)
+- **[Backpressure](#backpressure)**
+  - [Publisher와 Subscriber 간의 프로세스](#publisher와-subscriber-간의-프로세스)
+  - [Reactor에서의 BackPressure 처리 방법](#reactor에서의-backpressure-처리-방법)
+  - [BackPressure 전략](#backpressure-전략)
+ 
+
 ---------------------------------------------------------------------------------------
 ### Reactive System
 1. Responsive (응답성)
@@ -273,13 +279,60 @@ public class HotSequence {
 ```
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/4b867798-161b-4436-bb6d-f381fe63d75c)   
 
+---------------------------------------------------------------------------------
+## Backpressure
+Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 처리하기 위한 제어 기능   
+![photo_2024-06-13_13-30-11](https://github.com/bckkingkkang/WebFlux/assets/131218470/f5248f89-1297-4534-85cb-aa08ae40a4fd)
 
+### Publisher와 Subscriber 간의 프로세스
 
+<details>
+    <summary>publisher-subscriber 간 프로세스</summary>   
 
+![photo_2024-06-13_13-30-14](https://github.com/bckkingkkang/WebFlux/assets/131218470/76978dcd-8249-45b3-8070-df72edae541d)
+</details>
 
+### Reactor에서의 BackPerssure 처리 방법
+1. 요청 데이터의 개수를 제어하는 방법   
+   - Subscriber가 적절히 제어할 수 있는 수준의 데이터 개수를 Publisher에게 요청   
+2. Backpressure 전략을 사용하는 방법   
+   - Reactor에서 제공하는 Backpressure 전략을 사용
 
+### Backpressure 전략
+1. **IGNORE**
+   - Backpressure를 사용하지 않는다.
+2. **ERROR**
+   - Downstream으로 전달할 데이터가 Buffer에 가득 찬 경우, Exception을 발생
+3. **DROP**
+   - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 밖에서 대기하는 먼저 emit된 데이터부터 DROP한다.
+   - BUFFER가 비워질 때까지 하나씩 DROP
+     <details>
+     <summary>자세히 보기</summary>   
+     
+     ![photo_2024-06-13_13-30-08](https://github.com/bckkingkkang/WebFlux/assets/131218470/d83d100c-9565-4462-8359-56b40bcb8661)
+   </details>   
+4. **LATEST**
+   - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 밖에서 대기하는 가장 최근(나중)에 emit된 데이터부터 Buffer에 채운다.
+     <details>
+     <summary>자세히 보기</summary>  
+     
+     ![photo_2024-06-13_13-30-06](https://github.com/bckkingkkang/WebFlux/assets/131218470/d2ab063d-a282-4e7e-9947-be2f1f162bbc)
 
+   </details>   
+5. [BUFFER](#buffer) 전략
+   - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 안에 있는 데이터를 DROP 시킨다.
+     <details>
+     <summary>BUFFER DROP-LATEST</summary>  
+     
+     ![photo_2024-06-13_13-30-04](https://github.com/bckkingkkang/WebFlux/assets/131218470/9cca8741-303b-48d4-a7aa-f0aad878d663)
 
+     </details>  
+     <details>
+     <summary>BUFFER DROP-OLDEST</summary>  
+     
+     ![photo_2024-06-13_13-30-02](https://github.com/bckkingkkang/WebFlux/assets/131218470/d4c9497b-ea53-426c-88bc-4c69d9aa4d2b)
+
+     </details>  
 
 
 
@@ -291,4 +344,8 @@ public class HotSequence {
 참고   
 [Spring MVC vs Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html)     
 [Reactive Microservices With Spring Boot](https://spring.io/reactive)
+
+#### Buffer
+`완화하다`, `완충제`, `임시 저장 공간`   
+> 하나의 장치에서 다른 장치로 데이터를 전송할 경우에 양자 간의 데이터의 전송 속도나 처리 속도의 차를 보상하여 양호하게 결합할 목적으로 사용하는 기억 영역   
 
