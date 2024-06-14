@@ -306,6 +306,7 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 3. **DROP**
    - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 밖에서 대기하는 먼저 emit된 데이터부터 DROP한다.
    - BUFFER가 비워질 때까지 하나씩 DROP
+   - Buffer가 가득 찬 상태에서 데이터가 들어온 경우, 그 즉시 DROP
      <details>
      <summary>자세히 보기</summary>   
      
@@ -313,6 +314,7 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
    </details>   
 4. **LATEST**
    - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 밖에서 대기하는 가장 최근(나중)에 emit된 데이터부터 Buffer에 채운다.
+   - Buffer가 가득 찬 상태에서 데이터가 들어온 경우 즉시 Drop 되지 않고 데이터 하나가 더 들어온 경우 폐기된다. (최신 데이터가 아닌 데이터가 폐기)
      <details>
      <summary>자세히 보기</summary>  
      
