@@ -321,7 +321,7 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
      ![photo_2024-06-13_13-30-06](https://github.com/bckkingkkang/WebFlux/assets/131218470/d2ab063d-a282-4e7e-9947-be2f1f162bbc)
 
    </details>   
-5. [BUFFER](#buffer) 전략
+5. **[BUFFER](#buffer) 전략**
    - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 안에 있는 데이터를 DROP 시킨다.
      <details>
      <summary>BUFFER DROP-LATEST</summary>  
@@ -336,7 +336,17 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 
      </details>  
 
-
+-----------------------------------------------------------
+## Sinks
+* Reactive Streams에서 발생하는 signal을 프로그래밍적으로 push 할 수 있는 기능을 가지고 있는 Publisher의 일종
+* Thread-safe 가 보장되지 않을 수 있는 Processor 보다 더 나은 대안이 된다.
+  > `Thread-Safe` : 멀티스레드 환경에서 함수나 변수 같은 공유 자원에 동시 접근할 경우에도 프로그램의 실행에 문제가 없다.   
+  > `Thread-Safe가 보장되지 않는다` : 여러 개의 스레드가 공유 변수에 동시 접근해서 올바르지 않은 값이 할당된다거나, 공유 함수에 동시에 접근할 때 교착상태에 빠지게 되는 것
+  >    
+  > *Processor의 경우 onNext, onComplete, onError 메소드를 직접적으로 호출하기 때문에 Thread-Safe 하지 않을 수 있다.
+  Sinks의 경우에는 동시 접근을 감지하고 동시접근을 하는 Thread 중에서 하나가 빠르게 실패하기 때문에 Thread-Safe가 보장된다.*
+- Sinks는 Thread-Safe 하게 signal을 발생시킨다.
+- Sinks는 Sinsk.Many 또는 Sinks.Oneinterface를 사용해서 Thread-safe하게 signal을 발생시킨다.
 
 
 
