@@ -26,6 +26,8 @@ public class BackpressureLatestExample {
                                 throw new RuntimeException(e);
                             }
                             log.info("onNext : " + data);
+
+                            // DROP 전략처럼 Buffer 가 가득 찬 경우 Drop 되는 데이터를 확인할 수는 없다
                 },
                         error -> log.info("error : " + error));
 
