@@ -1,4 +1,4 @@
-package com.example.kahyun.monoexample;
+package com.example.kahyun.mono;
 
 import com.jayway.jsonpath.DocumentContext;
 import com.jayway.jsonpath.JsonPath;

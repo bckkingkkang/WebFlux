@@ -1,4 +1,4 @@
-package com.example.kahyun.monoexample;
+package com.example.kahyun.mono;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
