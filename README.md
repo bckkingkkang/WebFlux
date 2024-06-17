@@ -429,6 +429,9 @@ public class ParallelExample04 {
 ![photo_2024-06-17_16-48-46](https://github.com/bckkingkkang/WebFlux/assets/131218470/4d9ca0ce-b62c-48b8-89c6-9f2ea40013c8)
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/520564b6-77df-4aa0-844b-bde6658bdeff)
 
+### publishOn()과 subscribeOn()의 동작 이해 3
+- Operator 체인에서 publishOn()이 호출되면 publishOn() 호출 이후의 Operator 체인은 **다음 publishOn()을 만나기 전까지** publishOn()에서 지정한 Thread에서 실행이 된다.
+
 <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/6ec4ead7-a98e-4974-9ba7-add0345cb5c1" width="500" height="500"/>   
 
 ```java
