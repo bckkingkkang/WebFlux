@@ -24,7 +24,15 @@
   - [Publisher와 Subscriber 간의 프로세스](#publisher와-subscriber-간의-프로세스)
   - [Reactor에서의 BackPressure 처리 방법](#reactor에서의-backpressure-처리-방법)
   - [BackPressure 전략](#backpressure-전략)
- 
+- **[Sinks](#sinks)**
+- **[Scheduler](#scheduler)**
+  - [ParallelFlux의 동작 방식](#parallelflux의-동작-방식)
+    - [1. parallel()만 사용한 경우](#1-parallel-만-사용한-경우)
+    - [2. runOn()까지 사용한 경우](#2-runon까지-사용한-경우)
+    - [3. CPU 코어 갯수 지정](#3-cpu-코어-갯수-지정)
+  - [publishOn()과 subscribeOn()의 동작 이해 1](#publishon과-subscribeon의-동작-이해-1)
+  - [publishOn()과 subscribeOn()의 동작 이해 2](#publishon과-subscribeon의-동작-이해-2)
+  - [publishOn()과 subscribeOn()의 동작 이해 3](#publishon과-subscribeon의-동작-이해-3)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
