@@ -429,7 +429,26 @@ public class ParallelExample04 {
 ![photo_2024-06-17_16-48-46](https://github.com/bckkingkkang/WebFlux/assets/131218470/4d9ca0ce-b62c-48b8-89c6-9f2ea40013c8)
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/520564b6-77df-4aa0-844b-bde6658bdeff)
 
-<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/6ec4ead7-a98e-4974-9ba7-add0345cb5c1" width="500" height="500"/>
+<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/6ec4ead7-a98e-4974-9ba7-add0345cb5c1" width="500" height="500"/>   
+
+```java
+@Slf4j
+public class SchedulerOperatorExample03 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7})
+                .doOnNext(data -> log.info("doOnNext : {}", data))
+                .publishOn(Schedulers.parallel())
+                .filter(data -> data > 3)
+                .doOnNext(data -> log.info("filter : {}", data))
+                .publishOn(Schedulers.parallel())
+                .map(data -> data * 10)
+                .doOnNext(data -> log.info("map : {}", data))
+                .subscribe(data -> log.info("onNext : {}", data));
+        Thread.sleep(500L);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/31d765db-8fe7-4ae3-9052-29bdfc715c86)
 
 
 
