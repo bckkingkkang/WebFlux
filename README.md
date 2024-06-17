@@ -359,6 +359,86 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 - publishOn() : Operator 체인에서 Downstream Operator의 실행을 위한 쓰레드를 지정한다.
 - subscribeOn() : 최상위 Upstream Publisher의 실행을 위한 쓰레드를 지정한다. 즉, 원본 데이터 소스를 emit 하기 위한 스케줄러를 지정한다.
 - parallel() : Downstream에 대한 데이터 처리를 병렬로 분할 처리하기 위한 쓰레드를 지정한다.   
+   
+### parallelFlux의 동작 방식
+![photo_2024-06-17_15-30-04](https://github.com/bckkingkkang/WebFlux/assets/131218470/f71e5f27-b18d-4d11-a71f-8a342a158ccf)    
+> **②** : parallel operator가 return 값으로 반환하는 parallelFlux라는 특별한 타입에서 지원하는 runOn operator를 사용해서 Scheduler를 지정하게 되면 이 시점에 병렬 작업을 시작하게 됨   
+> **③** : rail이라는 논리적인 작업 단위에서 분할되는 워크로드 처리
+
+ 
+#### 1. parallel() 만 사용한 경우 
+```java
+@Slf4j
+public class ParallelExample01 {
+    public static void main(String[] args) {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15})
+                .parallel()     // 병렬로 처리하겠다는 정의
+                .subscribe(data -> log.info("# onNext : {}", data));
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/846f9e41-c681-424b-9f77-995f3ee29bee)   
+> 병렬로 처리되지 않고 메인 쓰레드에서 전부 처리가 됨   
+> parallel 만 사용할 경우에는 병렬로 작업을 수행하지 않는다.      
+
+   
+#### 2. runOn()까지 사용한 경우
+```java
+@Slf4j
+public class ParallelExample03 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 29})
+                .parallel()
+                .runOn(Schedulers.parallel())
+                .subscribe(data -> log.info("{}", data));
+
+        Thread.sleep(100L);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/92344a26-212d-4dd8-89b9-bee86aafc9ee)   
+> runOn() 을 사용해서 Scheduler 를 할당해주어야 병렬로 작업을 수행한다.   
+> [CPU 코어 갯수](#cpu-코어-갯수) 내에서 worker thread 를 할당한다.
+
+    
+#### 3. CPU 코어 갯수 지정
+```java
+@Slf4j
+public class ParallelExample04 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 19})
+                .parallel(4)        // Thread 의 갯수 지정
+                .runOn(Schedulers.parallel())
+                .subscribe(data -> log.info("{}", data));
+
+        Thread.sleep(100L);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/e64f5166-6f67-402e-b26b-0c6fa21bbab6)    
+> CPU 코어 갯수에 의존하지 않고, worker thread 를 강제 할당한다.   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -369,5 +449,8 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 
 #### Buffer
 `완화하다`, `완충제`, `임시 저장 공간`   
-> 하나의 장치에서 다른 장치로 데이터를 전송할 경우에 양자 간의 데이터의 전송 속도나 처리 속도의 차를 보상하여 양호하게 결합할 목적으로 사용하는 기억 영역   
+> 하나의 장치에서 다른 장치로 데이터를 전송할 경우에 양자 간의 데이터의 전송 속도나 처리 속도의 차를 보상하여 양호하게 결합할 목적으로 사용하는 기억 영역
+
+#### CPU 코어 갯수
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/1548e46f-d883-4549-bb79-fca829c2b095)
 
