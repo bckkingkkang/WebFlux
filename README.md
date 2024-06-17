@@ -321,7 +321,7 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
      ![photo_2024-06-13_13-30-06](https://github.com/bckkingkkang/WebFlux/assets/131218470/d2ab063d-a282-4e7e-9947-be2f1f162bbc)
 
    </details>   
-5. [BUFFER](#buffer) 전략
+5. **[BUFFER](#buffer) 전략**
    - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 안에 있는 데이터를 DROP 시킨다.
      <details>
      <summary>BUFFER DROP-LATEST</summary>  
@@ -336,6 +336,106 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 
      </details>  
 
+-----------------------------------------------------------
+## Sinks
+* Reactive Streams에서 발생하는 signal을 프로그래밍적으로 push 할 수 있는 기능을 가지고 있는 Publisher의 일종
+* Thread-safe 가 보장되지 않을 수 있는 Processor 보다 더 나은 대안이 된다.
+  > `Thread-Safe` : 멀티스레드 환경에서 함수나 변수 같은 공유 자원에 동시 접근할 경우에도 프로그램의 실행에 문제가 없다.   
+  > `Thread-Safe가 보장되지 않는다` : 여러 개의 스레드가 공유 변수에 동시 접근해서 올바르지 않은 값이 할당된다거나, 공유 함수에 동시에 접근할 때 교착상태에 빠지게 되는 것
+  >    
+  > *Processor의 경우 onNext, onComplete, onError 메소드를 직접적으로 호출하기 때문에 Thread-Safe 하지 않을 수 있다.
+  Sinks의 경우에는 동시 접근을 감지하고 동시접근을 하는 Thread 중에서 하나가 빠르게 실패하기 때문에 Thread-Safe가 보장된다.*
+- Sinks는 Thread-Safe 하게 signal을 발생시킨다.
+- Sinks는 Sinsk.Many 또는 Sinks.Oneinterface를 사용해서 Thread-safe하게 signal을 발생시킨다.
+
+---------------------------------------------------------------
+## Scheduler
+* 구독 시점에 데이터가 emit되는 영역과 emit된 데이터를 operator로 가공 처리하는 영역을 분리해서 손쉽게 멀티쓰레딩을 가능하게 한다.
+> `구성`   
+> - operator 체인에서 Scheduler를 전환하는 역할을 하는 전용 operator   
+> - Scheduler를 통해 생성되는 쓰레드 실행 모델을 지정하는 부분
+
+* Scheduler를 위한 전용 Operator
+- publishOn() : Operator 체인에서 Downstream Operator의 실행을 위한 쓰레드를 지정한다.
+- subscribeOn() : 최상위 Upstream Publisher의 실행을 위한 쓰레드를 지정한다. 즉, 원본 데이터 소스를 emit 하기 위한 스케줄러를 지정한다.
+- parallel() : Downstream에 대한 데이터 처리를 병렬로 분할 처리하기 위한 쓰레드를 지정한다.   
+   
+### parallelFlux의 동작 방식
+![photo_2024-06-17_15-30-04](https://github.com/bckkingkkang/WebFlux/assets/131218470/f71e5f27-b18d-4d11-a71f-8a342a158ccf)    
+> **②** : parallel operator가 return 값으로 반환하는 parallelFlux라는 특별한 타입에서 지원하는 runOn operator를 사용해서 Scheduler를 지정하게 되면 이 시점에 병렬 작업을 시작하게 됨   
+> **③** : rail이라는 논리적인 작업 단위에서 분할되는 워크로드 처리
+
+ 
+#### 1. parallel() 만 사용한 경우 
+```java
+@Slf4j
+public class ParallelExample01 {
+    public static void main(String[] args) {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15})
+                .parallel()     // 병렬로 처리하겠다는 정의
+                .subscribe(data -> log.info("# onNext : {}", data));
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/846f9e41-c681-424b-9f77-995f3ee29bee)   
+> 병렬로 처리되지 않고 메인 쓰레드에서 전부 처리가 됨   
+> parallel 만 사용할 경우에는 병렬로 작업을 수행하지 않는다.      
+
+   
+#### 2. runOn()까지 사용한 경우
+```java
+@Slf4j
+public class ParallelExample03 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 29})
+                .parallel()
+                .runOn(Schedulers.parallel())
+                .subscribe(data -> log.info("{}", data));
+
+        Thread.sleep(100L);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/92344a26-212d-4dd8-89b9-bee86aafc9ee)   
+> runOn() 을 사용해서 Scheduler 를 할당해주어야 병렬로 작업을 수행한다.   
+> [CPU 코어 갯수](#cpu-코어-갯수) 내에서 worker thread 를 할당한다.
+
+    
+#### 3. CPU 코어 갯수 지정
+```java
+@Slf4j
+public class ParallelExample04 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7, 9, 11, 13, 15, 17, 19})
+                .parallel(4)        // Thread 의 갯수 지정
+                .runOn(Schedulers.parallel())
+                .subscribe(data -> log.info("{}", data));
+
+        Thread.sleep(100L);
+    }
+}
+```
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/e64f5166-6f67-402e-b26b-0c6fa21bbab6)    
+> CPU 코어 갯수에 의존하지 않고, worker thread 를 강제 할당한다.   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -349,5 +449,8 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 
 #### Buffer
 `완화하다`, `완충제`, `임시 저장 공간`   
-> 하나의 장치에서 다른 장치로 데이터를 전송할 경우에 양자 간의 데이터의 전송 속도나 처리 속도의 차를 보상하여 양호하게 결합할 목적으로 사용하는 기억 영역   
+> 하나의 장치에서 다른 장치로 데이터를 전송할 경우에 양자 간의 데이터의 전송 속도나 처리 속도의 차를 보상하여 양호하게 결합할 목적으로 사용하는 기억 영역
+
+#### CPU 코어 갯수
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/1548e46f-d883-4549-bb79-fca829c2b095)
 
