@@ -348,7 +348,17 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
 - Sinks는 Thread-Safe 하게 signal을 발생시킨다.
 - Sinks는 Sinsk.Many 또는 Sinks.Oneinterface를 사용해서 Thread-safe하게 signal을 발생시킨다.
 
+---------------------------------------------------------------
+## Scheduler
+* 구독 시점에 데이터가 emit되는 영역과 emit된 데이터를 operator로 가공 처리하는 영역을 분리해서 손쉽게 멀티쓰레딩을 가능하게 한다.
+> `구성`   
+> - operator 체인에서 Scheduler를 전환하는 역할을 하는 전용 operator   
+> - Scheduler를 통해 생성되는 쓰레드 실행 모델을 지정하는 부분
 
+* Scheduler를 위한 전용 Operator
+- publishOn() : Operator 체인에서 Downstream Operator의 실행을 위한 쓰레드를 지정한다.
+- subscribeOn() : 최상위 Upstream Publisher의 실행을 위한 쓰레드를 지정한다. 즉, 원본 데이터 소스를 emit 하기 위한 스케줄러를 지정한다.
+- parallel() : Downstream에 대한 데이터 처리를 병렬로 분할 처리하기 위한 쓰레드를 지정한다.   
 
 
 
