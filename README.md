@@ -418,11 +418,16 @@ public class ParallelExample04 {
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/e64f5166-6f67-402e-b26b-0c6fa21bbab6)    
 > CPU 코어 갯수에 의존하지 않고, worker thread 를 강제 할당한다.   
 
-### publishOn()과 subscribeOn()의 동작 이해
+### publishOn()과 subscribeOn()의 동작 이해 1
 - Operator 체인에서 최초의 thread는 subsribe()가 호출되는 scope에 있는 thread이다.
 
 ![photo_2024-06-17_16-22-51](https://github.com/bckkingkkang/WebFlux/assets/131218470/ef8828f1-ba0f-43a3-b7b0-80e91137874f)
 
+### publishOn()과 subscribeOn()의 동작 이해 2
+- Operator 체인에서 publishOn()이 호출되면 publishOn() 호출 이후의 Operator 체인은 **다음 publishOn()을 만나기 전까지** publishOn()에서 지정한 Thread에서 실행이 된다.
+
+![photo_2024-06-17_16-48-46](https://github.com/bckkingkkang/WebFlux/assets/131218470/4d9ca0ce-b62c-48b8-89c6-9f2ea40013c8)
+<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/6ec4ead7-a98e-4974-9ba7-add0345cb5c1" width="500" height="500"/>
 
 
 
