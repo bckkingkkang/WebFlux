@@ -33,6 +33,7 @@
   - [publishOn()과 subscribeOn()의 동작 이해 1](#publishon과-subscribeon의-동작-이해-1)
   - [publishOn()과 subscribeOn()의 동작 이해 2](#publishon과-subscribeon의-동작-이해-2)
   - [publishOn()과 subscribeOn()의 동작 이해 3](#publishon과-subscribeon의-동작-이해-3)
+  - [publishOn()과 subscribeOn()의 동작 이해 4](#publishon과-subscribeon의-동작-이해-4)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -318,15 +319,15 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
      <details>
      <summary>자세히 보기</summary>   
      
-     ![photo_2024-06-13_13-30-08](https://github.com/bckkingkkang/WebFlux/assets/131218470/d83d100c-9565-4462-8359-56b40bcb8661)
+     <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/d83d100c-9565-4462-8359-56b40bcb8661" width="500"/>
    </details>   
 4. **LATEST**
    - Downstream으로 전달할 데이터가 Buffer에 가득 찰 경우, Buffer 밖에서 대기하는 가장 최근(나중)에 emit된 데이터부터 Buffer에 채운다.
    - Buffer가 가득 찬 상태에서 데이터가 들어온 경우 즉시 Drop 되지 않고 데이터 하나가 더 들어온 경우 폐기된다. (최신 데이터가 아닌 데이터가 폐기)
      <details>
      <summary>자세히 보기</summary>  
-     
-     ![photo_2024-06-13_13-30-06](https://github.com/bckkingkkang/WebFlux/assets/131218470/d2ab063d-a282-4e7e-9947-be2f1f162bbc)
+  
+     <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/d2ab063d-a282-4e7e-9947-be2f1f162bbc" width="500"/>   
 
    </details>   
 5. **[BUFFER](#buffer) 전략**
@@ -334,13 +335,13 @@ Publisher에서 emit되는 데이터들을 Subscriber 쪽에서 안정적으로 
      <details>
      <summary>BUFFER DROP-LATEST</summary>  
      
-     ![photo_2024-06-13_13-30-04](https://github.com/bckkingkkang/WebFlux/assets/131218470/9cca8741-303b-48d4-a7aa-f0aad878d663)
+     <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/9cca8741-303b-48d4-a7aa-f0aad878d663" width="500"/>
 
      </details>  
      <details>
      <summary>BUFFER DROP-OLDEST</summary>  
      
-     ![photo_2024-06-13_13-30-02](https://github.com/bckkingkkang/WebFlux/assets/131218470/d4c9497b-ea53-426c-88bc-4c69d9aa4d2b)
+     <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/d4c9497b-ea53-426c-88bc-4c69d9aa4d2b" width="500"/>
 
      </details>  
 
@@ -461,8 +462,14 @@ public class SchedulerOperatorExample03 {
 ```
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/31d765db-8fe7-4ae3-9052-29bdfc715c86)
 
+### publishOn()과 subscribeOn()의 동작 이해 4
+- subscribeOn()은 **최상위 Upstream publisher의 실행 쓰레드**를 subscribe() 호출 scope의 쓰레드에서 subscribeOn()에서 **지정한 쓰레드로 바꾼다**.
+> `메인 쓰레드를 다른 쓰레드로 바꿔주는 역할을 한다.`
+<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/81f5a026-7042-456b-b31d-2a7ff04cb145" width="500"/>   
 
-
+### publishOn()과 subscribeOn()의 동작 이해 5
+- subscribeOn()과 publishOn()이 같이 있다면, publishOn()을 만나기 전까지의 Upstream Operator 체인은 subscribeOn()에서 지정한 쓰레드에서 실행되고, publishOn()을 만날 때마다 publishOn() 아래의 Operator 체인 downstream은 publishOn()에서 지정한 쓰레드에서 실행된다.   
+<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/9302862b-6d63-4fbb-bd1a-9542533f694b" width="500"/>
 
 
 
