@@ -22,7 +22,7 @@
   - [Hot Sequence](#hot-sequence)
 - **[Backpressure](#backpressure)**
   - [Publisher와 Subscriber 간의 프로세스](#publisher와-subscriber-간의-프로세스)
-  - [Reactor에서의 BackPressure 처리 방법](#reactor에서의-backpressure-처리-방법)
+  - [Reactor에서의 BackPressure 처리 방법](#reactor에서의-backperssure-처리-방법)
   - [BackPressure 전략](#backpressure-전략)
 - **[Sinks](#sinks)**
 - **[Scheduler](#scheduler)**
@@ -35,6 +35,7 @@
   - [publishOn()과 subscribeOn()의 동작 이해 3](#publishon과-subscribeon의-동작-이해-3)
   - [publishOn()과 subscribeOn()의 동작 이해 4](#publishon과-subscribeon의-동작-이해-4)
   - [publishOn()과 subscribeOn()의 동작 이해 5](#publishon과-subscribeon의-동작-이해-5)
+  - [publishOn()과 subscribeOn()의 동작 이해 6](#publishon과-subscribeon의-동작-이해-6)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -490,6 +491,32 @@ public class SchedulerOperatorExample05 {
 }
 ```   
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/305e1ab7-57f6-4cae-bcf0-e598640a9cba)
+
+### publishOn()과 subscribeOn()의 동작 이해 6
+- subscribeOn()이 publishOn() 뒤에 위치하든 상관없이 publishOn()을 만나기 전까지의 Upstream Operator 체인은 subscribeOn()에서 지정한 쓰레드에서 실행된다.
+
+<img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/14ac2bcf-d2d2-48ba-8b16-b6935919b486" width="500"/>   
+
+```java
+@Slf4j
+public class SchedulerOperatorExample06 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7,})
+                .doOnNext(data -> log.info("# doOnNext fromArray: {}", data))
+                .publishOn(Schedulers.parallel())
+                .filter(data -> data > 3)
+                .doOnNext(data -> log.info("# doOnNext filter: {}", data))
+                .subscribeOn(Schedulers.boundedElastic())
+                .map(data -> data * 10)
+                .doOnNext(data -> log.info("# doOnNext map: {}", data))
+                .subscribe(data -> log.info("# doOnNext subscribe: {}", data));
+
+        Thread.sleep(500L);
+    }
+}
+```
+
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/b94296d7-156f-43e6-b21f-d37d4ec4048c)   
 
 
 
