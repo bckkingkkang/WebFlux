@@ -17,7 +17,7 @@ public class SchedulerOperatorExample04 {
                 .doOnNext(data -> log.info("# doOnNext fromArray : {}", data))
                 .filter(data -> data > 3)
                 .doOnNext(data -> log.info("# doOnNext filter {} : ", data))
-                .publishOn(Schedulers.parallel())
+                /*.publishOn(Schedulers.parallel())*/
                 .map(data -> data * 10)
                 .doOnNext(data -> log.info("# doOnNext map {} : ", data))
                 .subscribe(data -> log.info("# doOnNext : {}", data));

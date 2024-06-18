@@ -10,7 +10,7 @@ import reactor.core.scheduler.Schedulers;
 */
 
 @Slf4j
-public class SchedulerOperatorExample01 {
+public class SchedulerOperatorExample02 {
     public static void main(String[] args) throws InterruptedException {
         Flux.fromArray(new Integer[] {1, 3, 5, 7})
                 .doOnNext(data -> log.info("# doOnNext fromArray : {}", data))
