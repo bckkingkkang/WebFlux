@@ -34,6 +34,7 @@
   - [publishOn()과 subscribeOn()의 동작 이해 2](#publishon과-subscribeon의-동작-이해-2)
   - [publishOn()과 subscribeOn()의 동작 이해 3](#publishon과-subscribeon의-동작-이해-3)
   - [publishOn()과 subscribeOn()의 동작 이해 4](#publishon과-subscribeon의-동작-이해-4)
+  - [publishOn()과 subscribeOn()의 동작 이해 5](#publishon과-subscribeon의-동작-이해-5)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -470,6 +471,25 @@ public class SchedulerOperatorExample03 {
 ### publishOn()과 subscribeOn()의 동작 이해 5
 - subscribeOn()과 publishOn()이 같이 있다면, publishOn()을 만나기 전까지의 Upstream Operator 체인은 subscribeOn()에서 지정한 쓰레드에서 실행되고, publishOn()을 만날 때마다 publishOn() 아래의 Operator 체인 downstream은 publishOn()에서 지정한 쓰레드에서 실행된다.   
 <img src="https://github.com/bckkingkkang/WebFlux/assets/131218470/9302862b-6d63-4fbb-bd1a-9542533f694b" width="500"/>
+
+```java
+@Slf4j
+public class SchedulerOperatorExample05 {
+    public static void main(String[] args) throws InterruptedException {
+        Flux.fromArray(new Integer[] {1, 3, 5, 7,})
+                .subscribeOn(Schedulers.boundedElastic())
+                .filter(data -> data > 3)
+                .doOnNext(data -> log.info("# doOnNext filter : {}", data))
+                .publishOn(Schedulers.parallel())
+                .map(data -> data * 10)
+                .doOnNext(data -> log.info("# doOnNext map : {}", data))
+                .subscribe(data -> log.info("# doOnNext subscribe : {}", data));
+
+        Thread.sleep(500L);
+    }
+}
+```   
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/305e1ab7-57f6-4cae-bcf0-e598640a9cba)
 
 
 
