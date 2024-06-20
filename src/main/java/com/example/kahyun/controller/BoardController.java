@@ -20,6 +20,7 @@ public class BoardController {
     @GetMapping("/board/list")
     public Mono<String> boardList(Model model) {
         Flux<BoardVO> boardListFlux = boardService.getAllBoard();
+        System.out.println(boardListFlux);
         return boardListFlux.collectList()
                 .flatMap(boardList -> {
                     model.addAttribute("boardList", boardList);

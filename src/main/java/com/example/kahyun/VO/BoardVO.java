@@ -7,9 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document(collation = "board")
+@Document(collection = "board")
 public class BoardVO {
     @Id
+    private String id;
     private String seq;
     private String title;
     private String content;
