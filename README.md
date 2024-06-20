@@ -36,6 +36,7 @@
   - [publishOn()과 subscribeOn()의 동작 이해 4](#publishon과-subscribeon의-동작-이해-4)
   - [publishOn()과 subscribeOn()의 동작 이해 5](#publishon과-subscribeon의-동작-이해-5)
   - [publishOn()과 subscribeOn()의 동작 이해 6](#publishon과-subscribeon의-동작-이해-6)
+  - [Scheduler의 종류](#scheduler의-종류)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -518,8 +519,32 @@ public class SchedulerOperatorExample06 {
 
 ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/b94296d7-156f-43e6-b21f-d37d4ec4048c)   
 
-
-
+### Scheduler의 종류
+`Schedulers 클래스의 정적 메소드로 제공됨`   
+* **Schedulers.immediate()**
+  * 별도의 쓰레드를 추가 할당하지 않고, 현재 쓰레드에서 실행된다.
+* **Schedulers.single()**
+  * 하나의 쓰레드를 재사용한다.   
+  > 쓰레드를 하나만 생성해서 스케줄러가 제거되기 전까지 재사용, 저지연(low latency) 일회성 실행에 최적화 되어 있다.    
+* **Schedulers.boundedElastic()**   
+  * 쓰레드 풀을 생성하여 생성된 쓰레드를 재사용한다.   
+  > 생성된 Thread pool(executor Service 기반의 Thread Pool) 안에서 정해진 수만큼의 Thread를 사용해서 작업을 처리하고, 작업이 종료되면 해당 Thread를 반납해서 재사용하는 방식    
+  * 생성할 수 있는 쓰레드 수에 제한이 있다. (Default, CPU 코어 갯수 * 10)   
+  * 긴 실행 시간을 가질 수 있는 Blocking I/O 작업에 최적화 되어 있다.   
+  > subscribeOn()이라는 Scheduler 전용 Operator에서 주로 사용   
+  > 실제 데이터베이스나 Http request 같은 blocking I/O 작업을 통해서 대량의 데이터를 데이터 소스로 사용하는 경우가 많음. 이런 경우 대량의 데이터를 입력으로 받아들이고 출력으로 내보는 경우 실행시간이 길어진다.   
+  > 따라서 다른 Non-Blocking I/O 작업에 영향을 주지 않기 위해 BoundedElastic 같은 Scheduler를 이용해 Blocking I/O를 처리하기 위한 전용 Thread를 할당해서 작업 처리 시간을 효율적으로 사용할 수 있다.
+* **Schedulers.paralle()**
+  * 여러 개의 쓰레드를 할당해서 동시에 작업을 수행할 수 있다.   
+  * Non-Blocking I/O 작업에 최적화 되어 있다.   
+  > CPU 코어 갯수 만큼의 Thread 생성
+* **Schedulers.formExecutorService()**
+  * 기존의 ExecutorService를 사용하여 쓰레드를 생성한다.   
+  * 의미있는 식별자를 제공하기 때문에 [Metric](#metric)에서 주로 사용된다.   
+* **Schedulers.newXXX**
+  * 다양한 유형의 새로운 Scheduler를 생성할 수 있다.
+    `new Single()`, `newParallel()`, `newboundedElastic()`   
+  * Scheduler의 이름을 직접 지정할 수 있다.   
 
 
 
@@ -570,3 +595,6 @@ public class SchedulerOperatorExample06 {
 
 멀티 프로세스는 여러 개의 독립적인 프로세스가 동시에 실행되는 것이다. 각 프로세스는 독립된 메모리 공간을 가지며, 서로에게 접근하려면 IPC 기법을 사용해야 한다. 각 프로세스는 각각 고유한 자원을 관리하고 있어 서로에게 영향을 미치지 않는다. 하나의 프로세스 작업을 여러개로 분할(쪼개서) 병렬로 처리할 수 있다. 이때, 프로세스는 스레드 단위로 작업을 분할한다.   
 
+#### Metric
+* 시간이 지남에 따라 변화하는 데이터를 의미한다. 메모리 사용률, CPU 사용률, 스레드 사용률 등등.. 시간에 따른 추이를 추적할 가치가 있는 데이터   
+[참고](https://lordofkangs.tistory.com/326)
