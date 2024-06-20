@@ -648,7 +648,8 @@ public class SchedulerOperatorExample06 {
 -------------------------------------------------------------------------------------------------
 참고   
 [Spring MVC vs Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html)     
-[Reactive Microservices With Spring Boot](https://spring.io/reactive)
+[Reactive Microservices With Spring Boot](https://spring.io/reactive)   
+https://poiemaweb.com/
 
 #### Buffer
 `완화하다`, `완충제`, `임시 저장 공간`   
