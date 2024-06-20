@@ -1,5 +1,89 @@
 # WebFlux
-# 개요
+## 개요
+* **[검색, 설치 순서 정리](#검색-설치-순서-정리)**
+* **[개념 정리](#개념-정리)**
+-------------------------------------------------------------
+## 검색, 설치 순서 정리
+
+### mongoDB 다운로드
+<details>
+    <summary>1. mongoDB download</summary>   
+
+  ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/6b24924a-2701-429b-868c-9448984f6b86)
+
+</details>
+   
+<details>
+    <summary>2. 시스템 환경 변수 편집</summary>
+  
+  ![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/29abafc2-4429-4d20-a543-3f8c1837a48b)
+
+</details>
+
+<details>
+    <summary>3. mongoDB 버전 확인</summary>
+    
+![화면 캡처 2024-06-19 112551](https://github.com/bckkingkkang/WebFlux/assets/131218470/3aba57a3-5739-424c-a7c8-8836df1a51d1)
+
+</details>
+
+<details>
+    <summary>4. mongoDB compass</summary>
+  
+![화면 캡처 2024-06-20 143840](https://github.com/bckkingkkang/WebFlux/assets/131218470/6a63a9ab-1abb-48f4-92cc-d2ae30ce7bf5)
+
+![image](https://github.com/bckkingkkang/WebFlux/assets/131218470/ea7a0449-2538-41e6-84b9-ba90dc77f3d0)
+
+</details>
+
+<details>
+    <summary>5. ADD DATA</summary>
+    
+![화면 캡처 2024-06-20 143904](https://github.com/bckkingkkang/WebFlux/assets/131218470/d312799c-b60b-4744-894c-8fd23bd3b02a)
+![화면 캡처 2024-06-20 144525](https://github.com/bckkingkkang/WebFlux/assets/131218470/7d91433f-40de-4f07-9315-84e121308e0c)
+![화면 캡처 2024-06-20 144619](https://github.com/bckkingkkang/WebFlux/assets/131218470/a6f9cb2c-67c3-4ffb-9352-0fb7177aeafe)
+
+</details>
+
+<details>
+    <summary>6. application.properties 설정</summary>
+    
+```properties
+# 접속할 DB IP 주소
+spring.data.mongodb.host=localhost
+# 접속할 DB port 번호
+spring.data.mongodb.prot=27017
+# 접속할 계정이 위치한 DB 이름
+spring.data.mongodb.authentication-database=kahyun_webflux
+spring.data.mongodb.uri=mongodb://localhost:27017/kahyun_webflux
+```   
+</details>
+
+<details>
+    <summary>7. Vo </summary>
+
+```java
+@Data
+@Document(collection = "board")
+public class BoardVO {
+    @Id
+    private String id;
+    private String seq;
+    private String title;
+    private String content;
+    private String authorId;
+    private LocalDateTime create_dt;
+    private LocalDateTime update_dt;
+}
+```   
+</details>
+
+
+
+
+
+-------------------------------------------------------------
+## 개념 정리
 - **Reactive**
   - [Reactive System](#reactive-system)
   - [Reactive Programming](#reacitve-programming)
