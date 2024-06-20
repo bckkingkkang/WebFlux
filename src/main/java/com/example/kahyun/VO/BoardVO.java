@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDateTime;
 
 @Data
-@Document("board")
+@Document(collation = "board")
 public class BoardVO {
     @Id
     private String seq;
@@ -16,5 +16,7 @@ public class BoardVO {
     private String authorId;
     private LocalDateTime create_dt;
     private LocalDateTime update_dt;
+
+    private String locale;
 
 }

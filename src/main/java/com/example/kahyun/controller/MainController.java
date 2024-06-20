@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
-@RestController
+@Controller
 @Slf4j
 @RequiredArgsConstructor
 public class MainController {
 
-    @GetMapping("/")
+    @GetMapping("/main")
     public Mono<String> main() {
         return Mono.just("main");
     }

@@ -1,10 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Board List</title>
 </head>
 <body>
-
+<h1>Board List</h1>
+<table border="1">
+    <thead>
+    <tr>
+        <th>Seq</th>
+        <th>Title</th>
+        <th>Content</th>
+        <th>Author ID</th>
+        <th>Create Date</th>
+        <th>Update Date</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boardList}">
+        <td th:text="${board.seq}"></td>
+        <td th:text="${board.title}"></td>
+        <td th:text="${board.content}"></td>
+        <td th:text="${board.authorId}"></td>
+        <td th:text="${board.create_dt}"></td>
+        <td th:text="${board.update_dt}"></td>
+        <td><a th:href="@{/board/edit/{seq}(seq=${board.seq})}">Edit</a></td>
+        <td><a th:href="@{/board/delete/{seq}(seq=${board.seq})}">Delete</a></td>
+    </tr>
+    </tbody>
+</table>
+<a href="/board/add">Add Board</a>
 </body>
 </html>
