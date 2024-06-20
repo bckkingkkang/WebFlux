@@ -40,4 +40,6 @@ public class BoardService {
     public Mono<Void> deleteBoard(String seq) {
         return boardRepository.deleteById(seq);
     }
+
+
 }

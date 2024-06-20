@@ -20,12 +20,11 @@
     <tbody>
     <tr th:each="boardList : ${boardList}">
         <td th:text="${boardList.seq}"></td>
-        <td th:text="${boardList.title}"></td>
+        <td><a th:href="@{|/board/detail/${boardList.seq}|}" th:text="${boardList.title}"></a></td>
         <td th:text="${boardList.content}"></td>
         <td th:text="${boardList.authorId}"></td>
         <td th:text="${boardList.create_dt}"></td>
         <td th:text="${boardList.update_dt}"></td>
-
     </tr>
     </tbody>
 </table>
