@@ -25,21 +25,18 @@ configurations {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    // WebFlux
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    // lombok
     implementation 'org.projectlombok:lombok'
-    /*implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'*/
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    /*implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'*/
-    /*testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'*/
     annotationProcessor 'org.projectlombok:lombok'
+    // mongoDB
+    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive'
+    // thymeleaf
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    runtimeOnly 'com.mysql:mysql-connector-j'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     implementation 'com.jayway.jsonpath:json-path:2.6.0'
 
 }
