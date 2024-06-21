@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -36,7 +37,8 @@ public class BoardController {
         return Mono.just("board/create");
     }
 
-    @PostMapping("/createBoard")
+    @ResponseBody
+    @PostMapping("/board/createBoard")
     public Mono<String> createBoard(BoardVO boardVO) {
         boardService.createBoard(boardVO).subscribe();
         return Mono.just("redirect:/board/list");
@@ -45,13 +47,9 @@ public class BoardController {
     @GetMapping("/board/detail/{seq}")
     public Mono<String> detailBoard(@PathVariable("seq") String seq) {
         boardService.getBoardById(seq).subscribe();
+
         return Mono.just("board/detail");
     }
 
-    @GetMapping("/delete/{seq}")
-    public Mono<String> delete(@PathVariable String seq) {
-        boardService.deleteBoard(seq).subscribe();
-        return Mono.just("redirect:/board/list");
-    }
 
 }

@@ -5,6 +5,51 @@
     <title>Title</title>
 </head>
 <body>
-
+<div>
+    <div>
+        <form action="" id="saveForm" method="post">
+            <div>
+                <label for="title">작성자</label>
+                <input type="text" class="form-control" id="authorId" placeholder="작성자">
+            </div>
+            <div>
+                <label for="title">제목</label>
+                <input type="text" class="form-control" id="title" placeholder="제목">
+            </div>
+            <div>
+                <label for="content">내용</label>
+                <textarea type="text" style="height: 200px" id="content" placeholder="내용"></textarea>
+            </div>
+            <div>
+                <div>
+                    <button type="submit" id="createBtn">저장</button>
+                    <button type="button" onclick="if(confirm('작성을 취소하시겠습니까?')) {location.href='javascript:history.back()'} else return;">목록</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    const $dom = {};
+
+    $dom.createBtn = $("#createBtn");
+
+    $(function() {
+        $dom.createBtn.on('click', function() {
+            if(confirm("글을 등록하시겠습니까?")) {
+                $.ajax({
+                    type:"post",
+                    url:"/board/createBoard",
+                    data:{
+                        title:$("#title").val(),
+                        content:$("#content").val(),
+                        authorId:$("#authorId").val()
+                    }
+                })
+            }
+        })
+    })
+</script>
 </html>
