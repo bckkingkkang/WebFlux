@@ -6,8 +6,13 @@ import reactor.core.publisher.Mono;
 
 @Controller
 public class LoginController {
-    @GetMapping("/login")
+    @GetMapping("/user/login")
     public Mono<String> login() {
-        return Mono.just("login");
+        return Mono.just("user/login");
+    }
+
+    @GetMapping("/user/signup")
+    public Mono<String> signup() {
+        return Mono.just("user/signup");
     }
 }
