@@ -9,8 +9,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatcher;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -21,25 +24,25 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 public class SecurityConfig {
 
     @Bean
-    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) throws Exception {
-        http
-                .csrf(csrf-> csrf.disable()
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {
+        return http
+                .authorizeExchange(exchanges -> exchanges
+                        .pathMatchers("/user/**", "/mail/**", "/signup/**").permitAll()
+                        .anyExchange().authenticated()
                 )
-                .authorizeExchange(request -> request
-                    .pathMatchers("/user/**").permitAll()
-                    .anyExchange().authenticated()
-                )
-                // 로그인 페이지 커스터마이징
-                .formLogin(login -> login
+                .formLogin(form -> form
                         .loginPage("/user/login")
-                        .requiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers("/user/loginForm"))
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .logoutSuccessHandler(new RedirectServerLogoutSuccessHandler())
                 )
-        ;
-
-        return http.build();
-
+                .csrf(csrf -> csrf.disable())
+                .build();
     }
 }

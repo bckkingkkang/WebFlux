@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
     testImplementation 'org.springframework.security:spring-security-test'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'org.springframework.boot:spring-boot-starter-websocket'
@@ -40,6 +41,7 @@ dependencies {
     testImplementation 'io.projectreactor:reactor-test'
     implementation 'com.jayway.jsonpath:json-path:2.6.0'
     implementation 'org.webjars:jquery:3.6.0'
+    implementation 'org.springframework.security:spring-security-crypto'
 
 }
 
