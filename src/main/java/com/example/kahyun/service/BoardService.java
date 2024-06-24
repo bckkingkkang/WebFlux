@@ -25,7 +25,8 @@ public class BoardService {
     public Mono<BoardVO> createBoard(BoardVO boardVO) {
         boardVO.setCreate_dt(LocalDateTime.now());
         boardVO.setUpdate_dt(LocalDateTime.now());
-        boardVO.setSeq(boardVO.getSeq() + 1);
+        // System.out.println(boardVO.getSeq());
+        // boardVO.setSeq(boardVO.getSeq() + 1);
         return boardRepository.save(boardVO);
     }
 
