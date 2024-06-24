@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SignUp</title>
+</head>
+<body>
+<form action="">
+    <table>
+        <tr>
+            <th>이름</th>
+            <td>
+                <div>
+                    <input type="text" id="username" placeholder="이름">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>이메일</th>
+            <td>
+                <div>
+                    <input type="email" id="email" placeholder="이메일">
+                </div>
+            </td>
+            <td>
+                <button type="button" id="sendBtn" name="sendBtn">인증번호 발송</button>
+            </td>
+        </tr>
+        <tr>
+            <th>인증 번호</th>
+            <td>
+                <div>
+                    <input type="text" name="number" id="number" placeholder="인증번호 입력">
+                    <input type="text" name="number" id="numberOk" hidden>
+                </div>
+            </td>
+            <td class="text-start">
+                <button type="button" name="confirmBtn" id="confirmBtn">이메일 인증</button>
+            </td>
+        </tr>
+        <tr>
+            <th>아이디</th>
+            <td>
+                <div>
+                    <input placeholder="아이디" type="text" id="user_id">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>비밀번호</th>
+            <td>
+                <div>
+                    <input type="password" id="password" placeholder="비밀번호">
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <th>비밀번호 확인</th>
+            <td>
+                <div>
+                    <input type="password" id="password_check" placeholder="비밀번호 확인">
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div>
+        <button type="button" id="signupBtn">회원가입</button>
+    </div>
+</form>
+<button href="/user/login">로그인</button>
+</body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    const $dom = {};
+    let num = "";
+
+    $(function () {
+        $dom.signupBtn = $("#signupBtn");
+        $dom.username = $("#username").val();
+        $dom.user_id = $("#user_id").val();
+        $dom.email = $("#email").val();
+        $dom.user_id_check = $("#user_id_check").val();
+        $dom.password = $("#password").val();
+        $dom.password_check = $("#password_check").val();
+        $dom.auth = $("#auth").val();
+        $dom.idCheckBtn = $("#idCheckBtn");
+        $dom.sendBtn = $("#sendBtn");
+        $dom.confirmBtn = $("#confirmBtn");
+
+
+
+        $dom.signupBtn.on('click', function () {
+            console.log($dom);
+            if($("#numberOk").val() != "ok") {
+                alert("이메일 인증을 진행해주세요");
+                return;
+            }
+            if($("#user_id").val()=="") {
+                alert("아이디 중복 체크를 진행해주세요");
+                return;
+            }
+            if($("#user_id_check").val()=="") {
+                alert("아이디를 입력해주세요");
+                return;
+            }
+            if($("#password").val() != $("#password_check").val()) {
+                alert("비밀번호가 일치하지 않습니다.");
+                return;
+            }
+            if(confirm("가입하시겠습니까")) {
+                $.ajax({
+                    url:"signup_ajax",
+                    type : "post",
+                    data : {
+                        username : $("#username").val(),
+                        user_id : $("#user_id").val(),
+                        password : $("#password").val(),
+                        password_check : $("#password_check").val(),
+                        auth : $("#auth").val(),
+                        email : $("#email").val()
+                    },
+                    success : function() {
+                    }
+                })
+            }
+        })
+
+
+        $dom.sendBtn.on('click', function() {
+            $.ajax({
+                url:"/mail",
+                type:"post",
+                data:{ mail : $("#email").val()
+                },
+                success : function(data) {
+                    alert("인증번호가 발송되었습니다.");
+                    console.log(data);
+                    num = data;
+                }
+            })
+        })
+
+        $dom.confirmBtn.on('click', function() {
+            const number1 = $("#number").val();
+
+            if(number1 == num) {
+                alert("인증되었습니다.");
+                document.getElementById("number").readOnly = true;
+                $("#numberOk").val("ok");
+                document.getElementById("number").type = "password";
+                document.getElementById("confirmBtn").hidden = true;
+            } else {
+                alert("인증번호가 일치하지 않습니다.");
+            }
+        })
+
+    })
+</script>
+</html>
