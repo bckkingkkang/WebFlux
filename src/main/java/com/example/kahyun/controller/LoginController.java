@@ -42,4 +42,9 @@ public class LoginController {
                 .map(user -> ResponseEntity.ok("회원가입이 완료되었습니다."))
                 .defaultIfEmpty(ResponseEntity.badRequest().body("회원가입에 실패했습니다."));
     }
+
+    @PostMapping("/user/loginForm")
+    public String loginForm() {
+        return "redirect:/main";
+    }
 }
