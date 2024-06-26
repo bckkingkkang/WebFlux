@@ -29,7 +29,7 @@
             <th>아이디</th>
             <td>
                 <div>
-                    <input placeholder="아이디" type="text" id="user_id">
+                    <input placeholder="아이디" type="text" id="userId">
                 </div>
             </td>
         </tr>
@@ -64,7 +64,7 @@
     $(function () {
         $dom.signupBtn = $("#signupBtn");
         $dom.username = $("#username").val();
-        $dom.user_id = $("#user_id").val();
+        $dom.userId = $("#userId").val();
         $dom.email = $("#email").val();
         $dom.password = $("#password").val();
         $dom.password = $("#password_check").val();
@@ -72,7 +72,7 @@
         $dom.signupBtn.on('click', function () {
             console.log($("#username").val());
             console.log($("#email").val());
-            console.log($("#user_id").val());
+            console.log($("#userId").val());
             console.log($("#password").val());
             console.log($("#password_check").val());
 
@@ -85,7 +85,7 @@
                 alert("이메일을 입력해주세요");
                 return;
             }
-            if($("#user_id").val()=="") {
+            if($("#userId").val()=="") {
                 alert("아이디를 입력해주세요");
                 return;
             }
@@ -100,7 +100,7 @@
                     contentType: "application/json",  // 추가된 부분
                     data : JSON.stringify({          // JSON으로 변환
                         username : $("#username").val(),
-                        user_id : $("#user_id").val(),
+                        userId : $("#userId").val(),
                         password : $("#password").val(),
                         email : $("#email").val()
                     }),

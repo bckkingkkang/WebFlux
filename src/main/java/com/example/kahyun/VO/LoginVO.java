@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
 
@@ -14,11 +15,9 @@ public class LoginVO {
     private String id;
     private String username;
     private String password;
-    @Field("user_id")
-    private String user_id;
+    private String userId;
     private String email;
     private LocalDateTime create_dt;
 
     private String auth;
-
 }

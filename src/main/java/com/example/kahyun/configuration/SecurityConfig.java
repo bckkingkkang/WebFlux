@@ -26,13 +26,13 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, AuthProvider authProvider) {
         return http
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/user/**", "/mail/**", "/signup/**").permitAll()
+                        .pathMatchers("/user/**", "/mail/**", "/signup/**","/main").permitAll()
                         .anyExchange().authenticated()
                 )
-                .formLogin(formLoginSpec -> formLoginSpec
+                .formLogin(login -> login
                         .loginPage("/user/login")
                         .authenticationSuccessHandler(new RedirectServerAuthenticationSuccessHandler("/main"))
-                        .authenticationFailureHandler(new RedirectServerAuthenticationFailureHandler("/user/login?error=true"))
+                        .authenticationFailureHandler(new RedirectServerAuthenticationFailureHandler("/user/login"))
                         .authenticationManager(authProvider)
                         .requiresAuthenticationMatcher(ServerWebExchangeMatchers.pathMatchers(HttpMethod.POST, "/user/loginForm"))
                 )
