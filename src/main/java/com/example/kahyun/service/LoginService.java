@@ -25,9 +25,4 @@ public class LoginService {
         return loginRepository.save(loginVO);
     }
 
-    public Mono<LoginVO> selectUser_id(String user_id) {
-        return loginRepository.findByUser_id(user_id);
-    }
-
-
 }

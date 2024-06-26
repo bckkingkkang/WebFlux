@@ -5,12 +5,11 @@ import com.example.kahyun.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
@@ -24,8 +23,25 @@ public class LoginController {
 
 
     @GetMapping("/user/login")
-    public Mono<String> login() {
-        return Mono.just("user/login");
+    public Mono<String> login(@RequestParam(value = "error", required = false) String error,
+                              @RequestParam(value = "exception", required = false) String exception, ServerWebExchange exchange) {
+        return exchange.getPrincipal()
+                .map(principal -> {
+                    if (principal instanceof AnonymousAuthenticationToken) {
+                        return "user/login";
+                    } else {
+                        return "main";
+                    }
+                })
+                .switchIfEmpty(Mono.just("user/login"))
+                .doOnNext(model -> {
+                    if (error != null) {
+                        // 에러 관련 처리 추가
+                    }
+                    if (exception != null) {
+                        // 예외 관련 처리 추가
+                    }
+                });
     }
 
     @GetMapping("/user/signup")

@@ -19,8 +19,6 @@ public class LoginVO {
     private String email;
     private LocalDateTime create_dt;
 
-    private String user;
-
     private String auth;
 
 }
