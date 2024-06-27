@@ -19,7 +19,7 @@
     <tbody>
     <tr th:each="boardList, stat : ${boardList}">
         <td th:text="${stat.count}">1</td>
-        <td><a th:href="@{|/board/detail/${boardList.seq}|}" th:text="${boardList.title}"></a></td>
+        <td><a th:href="@{|/board/detail/${boardList.id}|}" th:text="${boardList.title}"></a></td>
         <td th:text="${boardList.authorId}"></td>
         <td th:text="${boardList.create_dt}"></td>
         <td th:text="${boardList.update_dt}"></td>

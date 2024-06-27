@@ -29,7 +29,7 @@ public class SecurityConfig {
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http, AuthProvider authProvider, MainController mainController) {
         return http
                 .authorizeExchange(exchanges -> exchanges
-                        .pathMatchers("/user/**", "/mail/**", "/signup/**","/main","/user/logout").permitAll()
+                        .pathMatchers("/user/**", "/mail/**", "/signup/**","/main").permitAll()
                         .anyExchange().authenticated()
                 )
                 .formLogin(login -> login

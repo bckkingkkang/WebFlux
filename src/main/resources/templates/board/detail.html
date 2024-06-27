@@ -2,9 +2,30 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>detail</title>
 </head>
 <body>
+<h1>detail</h1>
+    <table>
+        <tr>
+            <td>제목</td>
+            <td th:text="${board.title}"></td>
+        </tr>
+        <tr>
+            <td>작성자</td>
+            <td th:thext="${board.authorId}"></td>
+        </tr>
+        <tr>
+            <td>작성일</td>
+            <td th:text="${board.create_dt}"></td>
+        </tr>
+        <tr>
+            <td>내용</td>
+            <td th:text="${board.content}"></td>
+        </tr>
+    </table>
 
+<a href="/board/list">목록</a>
+<a href="/main">메인</a>
 </body>
 </html>

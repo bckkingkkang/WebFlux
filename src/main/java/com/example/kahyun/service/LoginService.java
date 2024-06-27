@@ -23,6 +23,7 @@ public class LoginService {
     }
 
     public Mono<LoginVO> registerUser(LoginVO loginVO) {
+        loginVO.setAuth("USER");
         return loginRepository.save(loginVO);
     }
 

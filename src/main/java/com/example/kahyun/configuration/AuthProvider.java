@@ -28,14 +28,45 @@ public class AuthProvider implements ReactiveAuthenticationManager {
 
 
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) throws AuthenticationException {
         String userId = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
+        log.info("Authenticating user: {}", userId);
+
+        return loginService.findByUserId(userId)
+                .switchIfEmpty(Mono.error(new BadCredentialsException("사용자를 찾을 수 없습니다.")))
+                .flatMap(loginVO -> {
+                    log.info("Found user: {}", loginVO);
+                    log.info("Provided password: {}", password);
+                    log.info("Stored password: {}", loginVO.getPassword());
+
+                    if (passwordEncoder.matches(password, loginVO.getPassword())) {
+                        List<GrantedAuthority> authorities = new ArrayList<>();
+                        if ("ADMIN".equals(loginVO.getAuth())) {
+                            authorities.add(new SimpleGrantedAuthority("ADMIN"));
+                        } else {
+                            authorities.add(new SimpleGrantedAuthority("USER"));
+                        }
+
+                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginVO.getUserId(), loginVO.getUsername(), authorities);
+                        log.info("Authentication token created: {}", token);
+                        return Mono.just(token);
+                    } else {
+                        log.warn("비밀번호가 잘못되었습니다.");
+                        return Mono.error(new BadCredentialsException("비밀번호가 잘못되었습니다."));
+                    }
+                });
+    }
+
+    /*System.out.println(userId + " " + password);
+
         PasswordEncoder passwordEncoder = loginService.passwordEncoder();
-        /*UsernamePasswordAuthenticationToken token;*/
+        *//*UsernamePasswordAuthenticationToken token;*//*
 
         LoginVO Vo = loginService.findByUserId(userId).block();
         System.out.println("vo : " + Vo);
@@ -58,11 +89,7 @@ public class AuthProvider implements ReactiveAuthenticationManager {
                         System.out.println("토큰 : "+token);
                         return Mono.just(token);
                     });
-        }
-        throw new BadCredentialsException("잘못됨");
-
-
-    }
-
+                    throw new BadCredentialsException("잘못됨");
+                    */
 
 }

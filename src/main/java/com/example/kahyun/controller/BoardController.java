@@ -29,6 +29,13 @@ public class BoardController {
                 });
     }
 
+    @GetMapping("/board/detail/{id}")
+    public Mono<String> detailBoard(@PathVariable("id") String id, Model model) {
+        return boardService.getBoardById(id)
+                .doOnNext(board -> model.addAttribute("board", board))
+                .then(Mono.just("/board/detail"));
+    }
+
     @GetMapping("/board/create")
     public Mono<String> createBoard() {
         return Mono.just("board/create");
@@ -39,12 +46,6 @@ public class BoardController {
         return boardService.createBoard(boardVO);
     }
 
-    @GetMapping("/board/detail/{seq}")
-    public Mono<String> detailBoard(@PathVariable("seq") String seq) {
-        boardService.getBoardById(seq).subscribe();
-
-        return Mono.just("board/detail");
-    }
 
 
 }

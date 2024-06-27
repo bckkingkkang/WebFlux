@@ -20,17 +20,11 @@ public class BoardService {
         return boardRepository.findAll();
     }
 
-    public Mono<BoardVO> getBoardById(String seq) {
-        return boardRepository.findById(seq);
+    public Mono<BoardVO> getBoardById(String id) {
+        return boardRepository.findById(id);
     }
 
     public Mono<BoardVO> createBoard(BoardVO boardVO) {
-        /*boardVO.setCreate_dt(LocalDateTime.now());
-        boardVO.setUpdate_dt(LocalDateTime.now());
-        boardVO.setAuthorId();
-
-        return boardRepository.save(boardVO);*/
-
         return ReactiveSecurityContextHolder.getContext()
                 .doOnNext(securityContext -> {
                     Authentication authentication = securityContext.getAuthentication();
@@ -40,7 +34,6 @@ public class BoardService {
                     /*boardVO.setUpdate_dt(LocalDateTime.now());*/
                     boardVO.setAuthorId(userId);
                     System.out.println("service VO : "+ boardVO);
-
                 })
                 .then(boardRepository.save(boardVO));
     }
