@@ -8,10 +8,10 @@
 <div>
     <div>
         <form action="" id="saveForm" method="post">
-            <div>
+            <!--<div>
                 <label for="title">작성자</label>
                 <input type="text" class="form-control" id="authorId" placeholder="작성자">
-            </div>
+            </div>-->
             <div>
                 <label for="title">제목</label>
                 <input type="text" class="form-control" id="title" placeholder="제목">
@@ -39,13 +39,22 @@
     $(function() {
         $dom.createBtn.on('click', function() {
             if(confirm("글을 등록하시겠습니까?")) {
+                let data = {
+                    title:$("#title").val(),
+                    content:$("#content").val()
+                }
+                console.log(data);
+                console.log(JSON.stringify(data));
                 $.ajax({
                     type:"post",
                     url:"/board/createBoard",
-                    data:{
-                        title:$("#title").val(),
-                        content:$("#content").val(),
-                        authorId:$("#authorId").val()
+                    contentType : "application/json",
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        location.href="/board/list";
+                    },
+                    error : function(xhr, status, error) {
+                        console.error("error : ", error);
                     }
                 })
             }

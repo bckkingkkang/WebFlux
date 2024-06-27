@@ -21,6 +21,4 @@ public class BoardVO {
     @Field("update_dt")
     private LocalDateTime update_dt;
 
-    private String locale;
-
 }

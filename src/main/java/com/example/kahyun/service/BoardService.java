@@ -3,6 +3,8 @@ package com.example.kahyun.service;
 import com.example.kahyun.VO.BoardVO;
 import com.example.kahyun.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -23,10 +25,24 @@ public class BoardService {
     }
 
     public Mono<BoardVO> createBoard(BoardVO boardVO) {
-        boardVO.setCreate_dt(LocalDateTime.now());
+        /*boardVO.setCreate_dt(LocalDateTime.now());
         boardVO.setUpdate_dt(LocalDateTime.now());
+        boardVO.setAuthorId();
 
-        return boardRepository.save(boardVO);
+        return boardRepository.save(boardVO);*/
+
+        return ReactiveSecurityContextHolder.getContext()
+                .doOnNext(securityContext -> {
+                    Authentication authentication = securityContext.getAuthentication();
+                    String userId = (String) authentication.getPrincipal();
+
+                    boardVO.setCreate_dt(LocalDateTime.now());
+                    boardVO.setUpdate_dt(LocalDateTime.now());
+                    boardVO.setAuthorId(userId);
+                    System.out.println("service VO : "+ boardVO);
+
+                })
+                .then(boardRepository.save(boardVO));
     }
 
     public Mono<BoardVO> updateBoard(String seq, BoardVO updateBoardVo) {
