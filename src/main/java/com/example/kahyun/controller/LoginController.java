@@ -59,8 +59,8 @@ public class LoginController {
                 .defaultIfEmpty(ResponseEntity.badRequest().body("회원가입에 실패했습니다."));
     }
 
-    @PostMapping("/user/loginForm")
-    public String loginForm() {
-        return "redirect:/main";
+    @RequestMapping("/user/logout")
+    public Mono<String> logout() {
+        return Mono.just("/user/logout");
     }
 }
