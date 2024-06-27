@@ -37,7 +37,7 @@ public class BoardService {
                     String userId = (String) authentication.getPrincipal();
 
                     boardVO.setCreate_dt(LocalDateTime.now());
-                    boardVO.setUpdate_dt(LocalDateTime.now());
+                    /*boardVO.setUpdate_dt(LocalDateTime.now());*/
                     boardVO.setAuthorId(userId);
                     System.out.println("service VO : "+ boardVO);
 

@@ -34,7 +34,7 @@ public class BoardController {
         return Mono.just("board/create");
     }
 
-    @PostMapping("/board/createBoard")
+    @PostMapping("/board/create")
     public Mono<BoardVO> createBoard(@RequestBody BoardVO boardVO) {
         return boardService.createBoard(boardVO);
     }

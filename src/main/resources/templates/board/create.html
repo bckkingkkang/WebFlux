@@ -7,7 +7,7 @@
 <body>
 <div>
     <div>
-        <form action="" id="saveForm" method="post">
+
             <!--<div>
                 <label for="title">작성자</label>
                 <input type="text" class="form-control" id="authorId" placeholder="작성자">
@@ -26,7 +26,7 @@
                     <button type="button" onclick="if(confirm('작성을 취소하시겠습니까?')) {location.href='javascript:history.back()'} else return;">목록</button>
                 </div>
             </div>
-        </form>
+
     </div>
 </div>
 </body>
@@ -47,7 +47,7 @@
                 console.log(JSON.stringify(data));
                 $.ajax({
                     type:"post",
-                    url:"/board/createBoard",
+                    url:"/board/create",
                     contentType : "application/json",
                     data: JSON.stringify(data),
                     success: function() {
