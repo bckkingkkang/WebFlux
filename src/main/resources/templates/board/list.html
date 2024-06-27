@@ -11,21 +11,20 @@
     <tr>
         <th>No</th>
         <th>제목</th>
-        <th>내용</th>
         <th>작성자</th>
         <th>작성일</th>
         <th>수정일</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="boardList : ${boardList}">
-        <td th:text="${boardList.seq}"></td>
+    <tr th:each="boardList, stat : ${boardList}">
+        <td th:text="${stat.count}">1</td>
         <td><a th:href="@{|/board/detail/${boardList.seq}|}" th:text="${boardList.title}"></a></td>
-        <td th:text="${boardList.content}"></td>
         <td th:text="${boardList.authorId}"></td>
         <td th:text="${boardList.create_dt}"></td>
         <td th:text="${boardList.update_dt}"></td>
     </tr>
+
     </tbody>
 </table>
 <a href="/board/create">등록</a>

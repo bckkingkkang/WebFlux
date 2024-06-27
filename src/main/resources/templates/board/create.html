@@ -50,11 +50,8 @@
                     url:"/board/createBoard",
                     contentType : "application/json",
                     data: JSON.stringify(data),
-                    success: function(response) {
+                    success: function() {
                         location.href="/board/list";
-                    },
-                    error : function(xhr, status, error) {
-                        console.error("error : ", error);
                     }
                 })
             }
