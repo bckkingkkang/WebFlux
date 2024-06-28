@@ -36,6 +36,13 @@ public class BoardController {
                 .then(Mono.just("/board/detail"));
     }
 
+    @GetMapping("/board/edit/{id}")
+    public Mono<String> editBoard(@PathVariable("id") String id, Model model) {
+        return boardService.getBoardById(id)
+                .doOnNext(board -> model.addAttribute("board", board))
+                .then(Mono.just("/board/edit"));
+    }
+
     @GetMapping("/board/create")
     public Mono<String> createBoard() {
         return Mono.just("board/create");
@@ -44,6 +51,11 @@ public class BoardController {
     @PostMapping("/board/create")
     public Mono<BoardVO> createBoard(@RequestBody BoardVO boardVO) {
         return boardService.createBoard(boardVO);
+    }
+
+    @PostMapping("/board/update")
+    public Mono<BoardVO> updateBoard(@RequestBody BoardVO boardVO) {
+        return boardService.updateBoard(boardVO.getId(), boardVO);
     }
 
 

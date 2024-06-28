@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>글 작성</title>
+    <title>edit</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -60,7 +60,7 @@
         .buttons {
             text-align: center;
         }
-        .buttons a {
+        .buttons a, button {
             background-color: #FFA500; /* 포인트 컬러 */
             color: white;
             padding: 10px 20px;
@@ -69,46 +69,8 @@
             margin: 0 10px;
             display: inline-block;
         }
-        .buttons a:hover {
+        .buttons a, button :hover {
             background-color: #FF8C00; /* 다크 오렌지 */
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            font-weight: bold;
-            margin-bottom: 5px;
-            display: block;
-        }
-        input[type="text"],
-        textarea {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        textarea {
-            height: 200px;
-            resize: vertical;
-        }
-        .buttons {
-            margin-top: 20px;
-        }
-        .buttons button {
-            padding: 10px 20px;
-            margin-right: 10px;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: #FFA500;
-            color: white;
-            border: none;
-            text-decoration: none;
-        }
-        .buttons button:hover {
-            background-color: #FF8C00;
         }
     </style>
 </head>
@@ -119,35 +81,48 @@
     <a href="/user/logout">로그아웃</a>
 </header>
 <div class="container">
-    <h1>글 작성</h1>
-    <div>
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" id="title" placeholder="제목">
-        </div>
-        <div class="form-group">
-            <label for="content">내용</label>
-            <textarea id="content" placeholder="내용"></textarea>
-        </div>
-        <div class="buttons">
-            <button type="submit" id="createBtn">저장</button>
-            <button type="button" onclick="confirmCancel()">취소</button>
-        </div>
+    <h1>Edit</h1>
+    <table>
+        <tr>
+            <th>제목</th>
+            <td><input type="text" id="title" value="제목" th:value="${board.title}"></td>
+        </tr>
+        <tr>
+            <th>작성자</th>
+            <td th:text="${board.authorId}"></td>
+        </tr>
+        <tr>
+            <th>작성일</th>
+            <td th:text="${board.create_dt}"></td>
+        </tr>
+        <tr>
+            <th>내용</th>
+            <td><textarea id="content" style="height: 200px;" th:text="${board.content}">내용</textarea></td>
+        </tr>
+    </table>
+    <div class="buttons">
+
+        <a th:href="@{|/board/detail/${board.id}|}">취소</a>
+        <a id="updateBtn">저장</a>
     </div>
 </div>
+</body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
 
     $(function() {
-        $("#createBtn").on('click', function() {
+        $("#updateBtn").on('click', function() {
+            console.log($("#updateBtn").val());
             if (confirm("글을 등록하시겠습니까?")) {
+
                 let data = {
                     title: $("#title").val(),
-                    content: $("#content").val()
+                    content: $("#content").val(),
+
                 };
                 $.ajax({
                     type: "POST",
-                    url: "/board/create",
+                    url: "/board/update",
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function() {
@@ -157,12 +132,5 @@
             }
         });
     });
-
-    function confirmCancel() {
-        if (confirm('작성을 취소하시겠습니까?')) {
-            history.back();
-        }
-    }
 </script>
-</body>
 </html>

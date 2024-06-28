@@ -31,15 +31,14 @@ public class BoardService {
                     String userId = (String) authentication.getPrincipal();
 
                     boardVO.setCreate_dt(LocalDateTime.now());
-                    /*boardVO.setUpdate_dt(LocalDateTime.now());*/
                     boardVO.setAuthorId(userId);
                     System.out.println("service VO : "+ boardVO);
                 })
                 .then(boardRepository.save(boardVO));
     }
 
-    public Mono<BoardVO> updateBoard(String seq, BoardVO updateBoardVo) {
-        return boardRepository.findById(seq)
+    public Mono<BoardVO> updateBoard(String id, BoardVO updateBoardVo) {
+        return boardRepository.findById(id)
                 .flatMap(existingBoard -> {
                     existingBoard.setTitle(updateBoardVo.getTitle());
                     existingBoard.setContent(updateBoardVo.getContent());
