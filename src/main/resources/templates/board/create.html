@@ -1,61 +1,167 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>글 작성</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFA500; /* 포인트 컬러 */
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        td {
+            background-color: #fff;
+        }
+        .buttons {
+            text-align: center;
+        }
+        .buttons a {
+            background-color: #FFA500; /* 포인트 컬러 */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        .buttons a:hover {
+            background-color: #FF8C00; /* 다크 오렌지 */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .buttons button {
+            padding: 10px 20px;
+            margin-right: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #FFA500;
+            color: white;
+            border: none;
+            text-decoration: none;
+        }
+        .buttons button:hover {
+            background-color: #FF8C00;
+        }
+    </style>
 </head>
 <body>
-<div>
+<header>
+    <a href="/board/list">게시판</a>
+    <a href="/user/login">로그인</a>
+    <a href="/user/logout">로그아웃</a>
+</header>
+<div class="container">
+    <h1>글 작성</h1>
     <div>
-
-            <!--<div>
-                <label for="title">작성자</label>
-                <input type="text" class="form-control" id="authorId" placeholder="작성자">
-            </div>-->
-            <div>
-                <label for="title">제목</label>
-                <input type="text" class="form-control" id="title" placeholder="제목">
-            </div>
-            <div>
-                <label for="content">내용</label>
-                <textarea type="text" style="height: 200px" id="content" placeholder="내용"></textarea>
-            </div>
-            <div>
-                <div>
-                    <button type="submit" id="createBtn">저장</button>
-                    <button type="button" onclick="if(confirm('작성을 취소하시겠습니까?')) {location.href='javascript:history.back()'} else return;">목록</button>
-                </div>
-            </div>
-
+        <div class="form-group">
+            <label for="title">제목</label>
+            <input type="text" id="title" placeholder="제목">
+        </div>
+        <div class="form-group">
+            <label for="content">내용</label>
+            <textarea id="content" placeholder="내용"></textarea>
+        </div>
+        <div class="buttons">
+            <button type="submit" id="createBtn">저장</button>
+            <button type="button" onclick="confirmCancel()">취소</button>
+        </div>
     </div>
 </div>
-</body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
-    const $dom = {};
-
-    $dom.createBtn = $("#createBtn");
-
     $(function() {
-        $dom.createBtn.on('click', function() {
-            if(confirm("글을 등록하시겠습니까?")) {
+        $("#createBtn").on('click', function() {
+            if (confirm("글을 등록하시겠습니까?")) {
                 let data = {
-                    title:$("#title").val(),
-                    content:$("#content").val()
-                }
-                console.log(data);
-                console.log(JSON.stringify(data));
+                    title: $("#title").val(),
+                    content: $("#content").val()
+                };
                 $.ajax({
-                    type:"post",
-                    url:"/board/create",
-                    contentType : "application/json",
+                    type: "POST",
+                    url: "/board/create",
+                    contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function() {
-                        location.href="/board/list";
+                        location.href = "/board/list";
                     }
-                })
+                });
             }
-        })
-    })
+        });
+    });
+
+    function confirmCancel() {
+        if (confirm('작성을 취소하시겠습니까?')) {
+            history.back();
+        }
+    }
 </script>
+</body>
 </html>

@@ -1,31 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>detail</title>
+    <title>Detail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFA500; /* 포인트 컬러 */
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        td {
+            background-color: #fff;
+        }
+        .buttons {
+            text-align: center;
+        }
+        .buttons a {
+            background-color: #FFA500; /* 포인트 컬러 */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        .buttons a:hover {
+            background-color: #FF8C00; /* 다크 오렌지 */
+        }
+    </style>
 </head>
 <body>
-<h1>detail</h1>
+<header>
+    <a href="/board/list">게시판</a>
+    <a href="/user/login">로그인</a>
+    <a href="/user/logout">로그아웃</a>
+</header>
+<div class="container">
+    <h1>Detail</h1>
     <table>
         <tr>
-            <td>제목</td>
+            <th>제목</th>
             <td th:text="${board.title}"></td>
         </tr>
         <tr>
-            <td>작성자</td>
-            <td th:thext="${board.authorId}"></td>
+            <th>작성자</th>
+            <td th:text="${board.authorId}"></td>
         </tr>
         <tr>
-            <td>작성일</td>
+            <th>작성일</th>
             <td th:text="${board.create_dt}"></td>
         </tr>
         <tr>
-            <td>내용</td>
+            <th>내용</th>
             <td th:text="${board.content}"></td>
         </tr>
     </table>
-
-<a href="/board/list">목록</a>
-<a href="/main">메인</a>
+    <div class="buttons">
+        <a href="/board/list">목록</a>
+        <a href="/main">메인</a>
+    </div>
+</div>
 </body>
 </html>

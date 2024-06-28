@@ -4,58 +4,144 @@
     <meta charset="UTF-8">
     <title>SignUp</title>
 </head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    header {
+        background-color: #FFA500; /* 포인트 컬러 */
+        padding: 20px 0;
+        text-align: center;
+        color: white;
+        font-size: 20px;
+    }
+    header a {
+        color: white;
+        text-decoration: none;
+        margin: 0 20px;
+        font-size: 18px;
+    }
+    header a:hover {
+        text-decoration: underline;
+    }
+    .nav {
+        text-align: center;
+        margin-top: 10px;
+    }
+    .nav a {
+        color: #fff;
+        text-decoration: none;
+        margin: 0 10px;
+    }
+    .nav a:hover {
+        text-decoration: underline;
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+    .buttons {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .buttons button {
+        padding: 10px 20px;
+        margin-right: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        background-color: #FFA500;
+        color: white;
+        border: none;
+        text-decoration: none;
+    }
+    .buttons button:hover {
+        background-color: #FF8C00;
+    }
+</style>
+</head>
 <body>
-<h1>회원가입</h1>
-<form action="">
-    <table>
-        <tr>
-            <th>이름</th>
-            <td>
-                <div>
-                    <input type="text" id="username" placeholder="이름">
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th>이메일</th>
-            <td>
-                <div>
-                    <input type="email" id="email" placeholder="이메일">
-                </div>
-            </td>
-        </tr>
-
-        <tr>
-            <th>아이디</th>
-            <td>
-                <div>
-                    <input placeholder="아이디" type="text" id="userId">
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th>비밀번호</th>
-            <td>
-                <div>
-                    <input type="password" id="password" placeholder="비밀번호">
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <th>비밀번호 확인</th>
-            <td>
-                <div>
-                    <input type="password" id="password_check" placeholder="비밀번호 확인">
-                </div>
-            </td>
-        </tr>
-    </table>
-    <div>
-        <button type="button" id="signupBtn">회원가입</button>
+<header>
+    <div class="container">
+        <div class="nav">
+            <a href="/board/list">게시판</a>
+            <a href="/user/login">로그인</a>
+            <a href="/user/logout">로그아웃</a>
+        </div>
     </div>
-</form>
-<button onclick="location.href='/user/login'">로그인</button>
-</body>
+</header>
+<div class="container">
+    <form action="">
+        <table>
+            <tr>
+                <th>이름</th>
+                <td>
+                    <div>
+                        <input type="text" id="username" placeholder="이름">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>이메일</th>
+                <td>
+                    <div>
+                        <input type="email" id="email" placeholder="이메일">
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <th>아이디</th>
+                <td>
+                    <div>
+                        <input placeholder="아이디" type="text" id="userId">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호</th>
+                <td>
+                    <div>
+                        <input type="password" id="password" placeholder="비밀번호">
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <th>비밀번호 확인</th>
+                <td>
+                    <div>
+                        <input type="password" id="password_check" placeholder="비밀번호 확인">
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="buttons">
+            <button type="button" id="signupBtn">회원가입</button>
+        </div>
+    </form>
+</div>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     const $dom = {};
