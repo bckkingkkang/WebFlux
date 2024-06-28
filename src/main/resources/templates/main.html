@@ -1,14 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Spring Boot with Thymeleaf Example</title>
+    <title>main</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFA500; /* 포인트 컬러 */
+            padding: 20px 0; /* 패딩을 늘려서 높이 증가 */
+            text-align: center;
+            color: white;
+            font-size: 20px; /* 글자 크기 증가 */
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px; /* 마진을 늘려서 간격 증가 */
+            font-size: 18px; /* 링크 글자 크기 증가 */
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #FFA500;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-<h1>메인</h1>
-<p>메인화면입니다.</p>
-<a href="/board/list">게시판</a>
-<a href="/user/login">로그인</a>
-<a href="/user/logout">로그아웃</a>
+<header>
+    <a href="/board/list">게시판</a>
+    <a href="/user/login">로그인</a>
+    <a href="/user/logout">로그아웃</a>
+</header>
+<div class="container">
+    <h1>메인</h1>
+    <p>메인화면입니다.</p>
+</div>
+<footer>
+    © 2024 Company Name. All rights reserved.
+</footer>
 </body>
 </html>

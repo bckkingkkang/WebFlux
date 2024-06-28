@@ -32,4 +32,7 @@ public class LoginService {
     }
 
 
+    public Mono<LoginVO> findAllByUserId(String username) {
+        return loginRepository.findAllByUserId(username);
+    }
 }

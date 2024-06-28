@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 
 public interface LoginRepository extends ReactiveMongoRepository<LoginVO, String> {
 
+    Mono<LoginVO> findAllByUserId(String username);
     Mono<LoginVO> findByUserId(String userId);
 
 }

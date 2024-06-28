@@ -26,19 +26,23 @@ public class AuthProvider implements ReactiveAuthenticationManager {
     @Autowired
     private LoginService loginService;
 
-
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     @Override
     public Mono<Authentication> authenticate(Authentication authentication) throws AuthenticationException {
-        String userId = (String) authentication.getPrincipal();
+
+        String username = (String) authentication.getPrincipal();
         String password = (String) authentication.getCredentials();
 
-        log.info("Authenticating user: {}", userId);
+        PasswordEncoder passwordEncoder = loginService.passwordEncoder();
 
-        return loginService.findByUserId(userId)
+        log.info("Authenticating details : {}", authentication.getDetails());
+        log.info("Authenticating principal : {}", authentication.getPrincipal());
+        log.info("Authenticating auth : {}", authentication.getAuthorities());
+        log.info("Authenticating auth : {}", authentication.isAuthenticated());
+
+        log.info("Authenticating username : {}", username);
+        log.info("Authenticating password : {}", password);
+
+        return loginService.findAllByUserId(username)
                 .switchIfEmpty(Mono.error(new BadCredentialsException("사용자를 찾을 수 없습니다.")))
                 .flatMap(loginVO -> {
                     log.info("Found user: {}", loginVO);
@@ -53,7 +57,7 @@ public class AuthProvider implements ReactiveAuthenticationManager {
                             authorities.add(new SimpleGrantedAuthority("USER"));
                         }
 
-                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginVO.getUserId(), loginVO.getUsername(), authorities);
+                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(loginVO.getUserId(), null,  authorities);
                         log.info("Authentication token created: {}", token);
                         return Mono.just(token);
                     } else {
@@ -62,34 +66,5 @@ public class AuthProvider implements ReactiveAuthenticationManager {
                     }
                 });
     }
-
-    /*System.out.println(userId + " " + password);
-
-        PasswordEncoder passwordEncoder = loginService.passwordEncoder();
-        *//*UsernamePasswordAuthenticationToken token;*//*
-
-        LoginVO Vo = loginService.findByUserId(userId).block();
-        System.out.println("vo : " + Vo);
-        if(Vo != null && passwordEncoder.matches(password, Vo.getPassword())) {
-            // 사용자 조회 및 비밀번호 검증
-            return loginService.findByUserId(userId)
-                    .switchIfEmpty(Mono.error(new BadCredentialsException("사용자를 찾을 수 없습니다.")))
-                    .flatMap(loginVO -> {
-
-                        // 권한 설정
-                        List<GrantedAuthority> authorities = new ArrayList<>();
-                        if ("ADMIN".equals(loginVO.getAuth())) {
-                            authorities.add(new SimpleGrantedAuthority("ADMIN"));
-                        } else {
-                            authorities.add(new SimpleGrantedAuthority("USER"));
-                        }
-
-                        // 인증 토큰 생성
-                        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(Vo.getUsername(), null, authorities);
-                        System.out.println("토큰 : "+token);
-                        return Mono.just(token);
-                    });
-                    throw new BadCredentialsException("잘못됨");
-                    */
 
 }

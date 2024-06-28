@@ -1,42 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>로그인</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        td {
+            padding: 10px;
+        }
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button[type="submit"], button[type="button"] {
+            width: 100%;
+            background-color: #FFA500; /* 포인트 컬러 */
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        button[type="submit"]:hover, button[type="button"]:hover {
+            background-color: #FF8C00; /* 다크 오렌지 */
+        }
+    </style>
 </head>
 <body>
+<div class="login-container">
     <h1>로그인</h1>
-    <div>
-        <form action="/user/loginForm" method="post">
-            <table>
-                <tr>
-                    <td>
-                        아이디
-                    </td>
-                    <td>
-                        <label for="userId">
-                        <input type="text" id="userId" name="userId">
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        비밀번호
-                    </td>
-                    <td>
-                        <label for="password">
-                        <input type="password" id="password" name="password">
-                        </label>
-                    </td>
-                    <td>
-                        <button type="submit">로그인</button>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div>
-        <button type="button" onclick="location.href='/user/signup'">회원 가입</button>
-    </div>
+    <form action="/user/loginForm" method="post">
+        <table>
+            <tr>
+                <td><label for="username">아이디</label></td>
+                <td><input type="text" id="username" name="username"></td>
+            </tr>
+            <tr>
+                <td><label for="password">비밀번호</label></td>
+                <td><input type="password" id="password" name="password"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><button type="submit">로그인</button></td>
+            </tr>
+        </table>
+    </form>
+    <button type="button" onclick="location.href='/user/signup'">회원 가입</button>
+</div>
 </body>
 </html>

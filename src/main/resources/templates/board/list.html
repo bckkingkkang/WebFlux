@@ -1,33 +1,115 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Board List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFA500; /* 포인트 컬러 */
+            padding: 20px 0;
+            text-align: center;
+            color: white;
+            font-size: 20px;
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px;
+            font-size: 18px;
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+        td a {
+            color: #FFA500; /* 포인트 컬러 */
+            text-decoration: none;
+        }
+        td a:hover {
+            text-decoration: underline;
+        }
+        .buttons {
+            text-align: center;
+        }
+        .buttons a {
+            background-color: #FFA500; /* 포인트 컬러 */
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            margin: 0 10px;
+            display: inline-block;
+        }
+        .buttons a:hover {
+            background-color: #FF8C00; /* 다크 오렌지 */
+        }
+    </style>
 </head>
 <body>
-<h1>Board List</h1>
-<table>
-    <thead>
-    <tr>
-        <th>No</th>
-        <th>제목</th>
-        <th>작성자</th>
-        <th>작성일</th>
-        <th>수정일</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="boardList, stat : ${boardList}">
-        <td th:text="${stat.count}">1</td>
-        <td><a th:href="@{|/board/detail/${boardList.id}|}" th:text="${boardList.title}"></a></td>
-        <td th:text="${boardList.authorId}"></td>
-        <td th:text="${boardList.create_dt}"></td>
-        <td th:text="${boardList.update_dt}"></td>
-    </tr>
-
-    </tbody>
-</table>
-<a href="/board/create">등록</a>
-<a href="/main">메인</a>
+<header>
+    <a href="/board/list">게시판</a>
+    <a href="/user/login">로그인</a>
+    <a href="/user/logout">로그아웃</a>
+</header>
+<div class="container">
+    <h1>Board List</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>제목</th>
+            <th>작성자</th>
+            <th>작성일</th>
+            <th>수정일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="boardList, stat : ${boardList}">
+            <td th:text="${stat.count}">1</td>
+            <td><a th:href="@{|/board/detail/${boardList.id}|}" th:text="${boardList.title}"></a></td>
+            <td th:text="${boardList.authorId}"></td>
+            <td th:text="${boardList.create_dt}"></td>
+            <td th:text="${boardList.update_dt}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="buttons">
+        <a href="/board/create">등록</a>
+        <a href="/main">메인</a>
+    </div>
+</div>
 </body>
 </html>
