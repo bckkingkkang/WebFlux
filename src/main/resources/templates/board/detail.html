@@ -83,28 +83,73 @@
 </header>
 <div class="container">
     <h1>Detail</h1>
-    <table>
-        <tr>
-            <th>제목</th>
-            <td th:text="${board.title}"></td>
-        </tr>
-        <tr>
-            <th>작성자</th>
-            <td th:text="${board.authorId}"></td>
-        </tr>
-        <tr>
-            <th>작성일</th>
-            <td th:text="${board.create_dt}"></td>
-        </tr>
-        <tr>
-            <th>내용</th>
-            <td th:text="${board.content}"></td>
-        </tr>
-    </table>
-    <div class="buttons">
-        <a th:href="@{|/board/edit/${board.id}|}">수정</a>
-        <a href="/board/list">목록</a>
+    <div id="boardDetail">
+        <table>
+            <tr>
+                <th>제목</th>
+                <td id="title"></td>
+            </tr>
+            <tr>
+                <th>작성자</th>
+                <td id="authorId"></td>
+            </tr>
+            <tr>
+                <th>작성일</th>
+                <td id="create_dt"></td>
+            </tr>
+            <tr>
+                <th>내용</th>
+                <td id="content"></td>
+            </tr>
+        </table>
+        <div class="buttons">
+            <a id="editBtn" href="#">수정</a>
+            <a href="/board/list">목록</a>
+        </div>
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        const boardId = window.location.pathname.split('/').pop();
+        $.ajax({
+            url: `/api/board/detail/${boardId}`,
+            type: "GET",
+            success: function(data) {
+                const boardTable = $("#boardDetail");
+                boardTable.empty();
+
+                const detail = `
+                        <table>
+                            <tr>
+                                <th>제목</th>
+                                <td>${data.title}</td>
+                            </tr>
+                            <tr>
+                                <th>작성자</th>
+                                <td>${data.authorId}</td>
+                            </tr>
+                            <tr>
+                                <th>작성일</th>
+                                <td>${data.create_dt}</td>
+                            </tr>
+                            <tr>
+                                <th>내용</th>
+                                <td>${data.content}</td>
+                            </tr>
+                        </table>
+                        <div class="buttons">
+                            <a id="editBtn" href="/board/edit/${data.id}">수정</a>
+                            <a href="/board/list">목록</a>
+                        </div>
+                    `;
+                boardTable.append(detail);
+            },
+            error: function(xhr, status, error) {
+                alert("데이터 로드에 실패했습니다: " + error);
+            }
+        });
+    });
+</script>
 </body>
 </html>
