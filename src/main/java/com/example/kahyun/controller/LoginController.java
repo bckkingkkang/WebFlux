@@ -19,25 +19,35 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
 
 
+    // 로그인 화면
     @GetMapping("/user/login")
     public Mono<String> login() {
         return Mono.just("/user/login");
     }
 
+    // 회원가입 화면
     @GetMapping("/user/signup")
     public Mono<String> signup() {
         return Mono.just("user/signup");
     }
 
-
+    // 회원가입
     @ResponseBody
     @PostMapping("/user/signup")
     public Mono<ResponseEntity<String>> signupForm(@RequestBody LoginVO loginVO) {
-        loginVO.setPassword(passwordEncoder.encode(loginVO.getPassword())); // 비밀번호 암호화
-        loginVO.setCreate_dt(LocalDateTime.now()); // 생성일자 설정
+        // 비밀번호 암호화
+        loginVO.setPassword(passwordEncoder.encode(loginVO.getPassword()));
+        // 현재 시간 설정
+        loginVO.setCreate_dt(LocalDateTime.now());
+        // 사용자 등록
         return loginService.registerUser(loginVO)
+                // 회원 가입 성공
                 .map(user -> ResponseEntity.ok("회원가입이 완료되었습니다."))
+                // 회원 가입 실패
                 .defaultIfEmpty(ResponseEntity.badRequest().body("회원가입에 실패했습니다."));
+                /*
+                    defaultIfEmpty : 반환된 Mono가 비어있는 경우
+                */
     }
 
     @RequestMapping("/user/logout")

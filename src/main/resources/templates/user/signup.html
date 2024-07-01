@@ -183,18 +183,20 @@
                 $.ajax({
                     url:"/user/signup",
                     type : "post",
-                    contentType: "application/json",  // 추가된 부분
-                    data : JSON.stringify({          // JSON으로 변환
+                    // contentType 을 JSON 으로 설정
+                    contentType: "application/json",
+                    // JSON 문자열로 변환
+                    data : JSON.stringify({
                         username : $("#username").val(),
                         userId : $("#userId").val(),
                         password : $("#password").val(),
                         email : $("#email").val()
                     }),
-                    success : function(response) {
+                    success : function() {
                         alert("회원가입이 완료되었습니다.");
                         window.location.href = "/user/login"; // 회원가입 성공 후 로그인 페이지로 리디렉션
                     },
-                    error: function(xhr, status, error) {
+                    error: function() {
                         alert("회원가입 중 오류가 발생했습니다: " + xhr.responseText);
                     }
                 });

@@ -5,8 +5,7 @@ import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import reactor.core.publisher.Mono;
 
 public interface LoginRepository extends ReactiveMongoRepository<LoginVO, String> {
-
-    Mono<LoginVO> findAllByUserId(String username);
+    // userId로 모든 LoginVO 객체 조회
     Mono<LoginVO> findByUserId(String userId);
 
 }
