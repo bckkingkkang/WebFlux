@@ -97,14 +97,8 @@
             <th>수정일</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="boardList, stat : ${boardList}">
-            <td th:text="${stat.count}">1</td>
-            <td><a th:href="@{|/board/detail/${boardList.id}|}" th:text="${boardList.title}"></a></td>
-            <td th:text="${boardList.authorId}"></td>
-            <td th:text="${boardList.create_dt}"></td>
-            <td th:text="${boardList.update_dt}"></td>
-        </tr>
+        <tbody id="boardList">
+            <!-- ajax로 데이터 로드 -->
         </tbody>
     </table>
     <div class="buttons">
@@ -112,4 +106,36 @@
     </div>
 </div>
 </body>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 데이터 비동기 로드
+        $.ajax({
+            // 실제 데이터 API URL
+            url: "/api/board/list",
+            type: "GET",
+            success: function (data) {
+                const boardTable = $("#boardList");
+                // 테이블 내용 비움
+                boardTable.empty();
+
+                data.forEach((board, index) => {
+                    const row = `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td><a href="/board/detail/${board.id}">${board.title}</a></td>
+                            <td>${board.authorId}</td>
+                            <td>${board.create_dt}</td>
+                            <td>${board.update_dt}</td>
+                        </tr>
+                    `;
+                    boardTable.append(row);
+                });
+            },
+            error: function (xhr, status, error) {
+                alert("데이터 로드 실패: " + error);
+            }
+        })
+    })
+</script>
 </html>
