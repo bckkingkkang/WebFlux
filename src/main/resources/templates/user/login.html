@@ -1,35 +1,14 @@
+
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>로그인</title>
+    <title>login</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f7f7f7;
-            color: #333;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .login-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
-            text-align: center;
-        }
         table {
             width: 100%;
             margin-bottom: 15px;
+
         }
         td {
             padding: 10px;
@@ -59,11 +38,75 @@
         button[type="submit"]:hover, button[type="button"]:hover {
             background-color: #FF8C00; /* 다크 오렌지 */
         }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #FFA500; /* 포인트 컬러 */
+            padding: 20px 0; /* 패딩을 늘려서 높이 증가 */
+            text-align: center;
+            color: white;
+            font-size: 20px; /* 글자 크기 증가 */
+        }
+        header a {
+            color: white;
+            text-decoration: none;
+            margin: 0 20px; /* 마진을 늘려서 간격 증가 */
+            font-size: 18px; /* 링크 글자 크기 증가 */
+        }
+        header a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #FFA500;
+            color: white;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .login-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+            margin: auto;
+        }
     </style>
 </head>
 <body>
-<div class="login-container">
+<header>
+    <a href="/main">메인</a>
+    <a href="/board/list">게시판</a>
+
+</header>
+<div class="container">
     <h1>로그인</h1>
+    <div class="login-container">
     <form action="/user/loginForm" method="post">
         <table>
             <tr>
@@ -80,6 +123,10 @@
         </table>
     </form>
     <button type="button" onclick="location.href='/user/signup'">회원 가입</button>
+    </div>
 </div>
+<footer>
+    © 2024 Company Name. All rights reserved.
+</footer>
 </body>
 </html>

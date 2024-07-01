@@ -17,22 +17,23 @@ public class BoardService {
     private final BoardRepository boardRepository;
 
     public Flux<BoardVO> getAllBoard() {
+        // 모든 게시판 글 비동기적으로 조회 후 Flux<BoardVO> 형태로 반환
         return boardRepository.findAll();
     }
 
     public Mono<BoardVO> getBoardById(String id) {
+        // 해당 id에 해당하는 게시판 글 비동기적으로 조회 후 Mono<BoardVO> 형태로 반환
         return boardRepository.findById(id);
     }
 
+    // 게시글 등록
     public Mono<BoardVO> createBoard(BoardVO boardVO) {
         return ReactiveSecurityContextHolder.getContext()
                 .doOnNext(securityContext -> {
                     Authentication authentication = securityContext.getAuthentication();
                     String userId = (String) authentication.getPrincipal();
-
                     boardVO.setCreate_dt(LocalDateTime.now());
                     boardVO.setAuthorId(userId);
-                    System.out.println("service VO : "+ boardVO);
                 })
                 .then(boardRepository.save(boardVO));
     }
