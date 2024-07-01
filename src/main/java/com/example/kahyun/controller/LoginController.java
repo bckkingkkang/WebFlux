@@ -54,4 +54,5 @@ public class LoginController {
     public Mono<String> logout() {
         return Mono.just("/user/logout");
     }
+
 }

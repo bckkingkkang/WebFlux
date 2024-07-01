@@ -63,10 +63,28 @@
 </header>
 <div class="container">
     <h1>로그아웃</h1>
-    <p>로그아웃되었습니다.</p>
+    <button id="logoutBtn">로그아웃</button>
 </div>
 <footer>
     © 2024 Company Name. All rights reserved.
 </footer>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#logoutBtn").on('click', function() {
+            $.ajax({
+                url: "/logout",
+                type: "POST",
+                success: function() {
+                    alert("로그아웃되었습니다.");
+                    window.location.href = "/user/login";
+                },
+                error: function(xhr, status, error) {
+                    alert("로그아웃 실패: " + error);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

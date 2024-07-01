@@ -12,9 +12,13 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationFailureHandler;
 import org.springframework.security.web.server.authentication.RedirectServerAuthenticationSuccessHandler;
+import org.springframework.security.web.server.authentication.logout.RedirectServerLogoutSuccessHandler;
+import org.springframework.security.web.server.authentication.logout.SecurityContextServerLogoutHandler;
+import org.springframework.security.web.server.authentication.logout.ServerLogoutSuccessHandler;
 import org.springframework.security.web.server.context.ServerSecurityContextRepository;
 import org.springframework.security.web.server.context.WebSessionServerSecurityContextRepository;
 import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @EnableWebFluxSecurity
@@ -55,7 +59,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         // 로그아웃 URL
-                        .logoutUrl("/user/logout")
+                        .logoutUrl("/logout")
                 )
                 // CSRF 비활성화
                 .csrf(csrf -> csrf.disable())
