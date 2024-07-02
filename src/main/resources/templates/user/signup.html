@@ -145,7 +145,6 @@
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script type="text/javascript">
     const $dom = {};
-    let num = "";
 
     $(function () {
         $dom.signupBtn = $("#signupBtn");
@@ -155,30 +154,59 @@
         $dom.password = $("#password").val();
         $dom.password = $("#password_check").val();
 
-        $dom.signupBtn.on('click', function () {
-            console.log($("#username").val());
-            console.log($("#email").val());
-            console.log($("#userId").val());
-            console.log($("#password").val());
-            console.log($("#password_check").val());
+        const expIdText = /^[A-Za-z]{4,20}$/;
+        const expPwText = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/;
+        const expNameText= /^[가-힣]+$/;
+        const expEmailText = /^[A-Za-z-0-9\-\.]+@[A-Ja-z-0-9\-\.]+\.[A-Ja-z-0-9]+$/;
 
-            console.log($dom);
+        $dom.signupBtn.on('click', function () {
+
             if($("#username").val() == "") {
                 alert("이름을 입력해주세요");
+                $("#username").focus();
+                return;
+            }
+            if(!expNameText.test($("#username").val())) {
+                alert("이름 입력 형식이 올바르지 않습니다. 이름을 한글로 입력해주세요");
+                $("#username").focus();
                 return;
             }
             if($("#email").val() == "") {
                 alert("이메일을 입력해주세요");
+                $("#email").focus();
+                return;
+            }
+            if(!expEmailText.test($("#email").val())) {
+                alert("이메일 형식이 올바르지 않습니다.");
+                $("#email").focus();
                 return;
             }
             if($("#userId").val()=="") {
                 alert("아이디를 입력해주세요");
+                $("#userId").focus();
+                return;
+            }
+            if(!expIdText.test($("#userId").val())) {
+                alert("아이디는 4자 이상, 20자 이하의 대소문자로 시작하는 조합입니다.");
+                $("#userId").focus();
+                return;
+            }
+            if($("#password").val() == "") {
+                alert("비밀번호를 입력해주세요.");
+                $("#password").focus();
+                return;
+            }
+            if(!expPwText.test($("#password").val())) {
+                alert("비밀번호 형식은 소문자, 대문자, 특수문자, 숫자가 모두 하나 이상 입력되어야 합니다.");
+                $("#password").focus();
                 return;
             }
             if($("#password").val() != $("#password_check").val()) {
                 alert("비밀번호가 일치하지 않습니다.");
+                $("#password").focus();
                 return;
             }
+
             if(confirm("가입하시겠습니까")) {
                 $.ajax({
                     url:"/user/signup",
