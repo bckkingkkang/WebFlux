@@ -83,27 +83,11 @@
 </header>
 <div class="container">
     <h1>Edit</h1>
-    <table>
-        <tr>
-            <th>제목</th>
-            <td><input type="text" id="title" value="제목" th:value="${board.title}"></td>
-        </tr>
-        <tr>
-            <th>작성자</th>
-            <td th:text="${board.authorId}"></td>
-        </tr>
-        <tr>
-            <th>작성일</th>
-            <td th:text="${board.create_dt}"></td>
-        </tr>
-        <tr>
-            <th>내용</th>
-            <td><textarea id="content" style="height: 200px;" th:text="${board.content}">내용</textarea></td>
-        </tr>
-    </table>
+    <div id="boardDetail">
+        <!-- ajax 데이터 로드 -->
+    </div>
     <div class="buttons">
-
-        <a th:href="@{|/board/detail/${board.id}|}">취소</a>
+        <a href="javascript:history.back();">취소</a>
         <a id="updateBtn">저장</a>
     </div>
 </div>
@@ -112,22 +96,64 @@
 <script type="text/javascript">
 
     $(function() {
+        const boardId = window.location.pathname.split('/').pop();
+        $.ajax({
+            url: `/api/board/detail/${boardId}`,
+            type: "GET",
+            success: function(data) {
+                const boardTable = $("#boardDetail");
+                boardTable.empty();
+                const detail = `
+                        <table>
+                            <tr>
+                                <th>제목</th>
+                                <td><input type="text" id="title" value="${data.title}"></td>
+                            </tr>
+                            <tr>
+                                <th>작성자</th>
+                                <td>${data.authorId}</td>
+                            </tr>
+                            <tr>
+                                <th>작성일</th>
+                                <td>${data.create_dt}</td>
+                            </tr>
+                            <tr>
+                                <th>내용</th>
+                                <td><textarea id="content" style="height: 200px;">${data.content}</textarea></td>
+                            </tr>
+                        </table>
+                    `;
+
+                boardTable.append(detail);
+            },
+            error: function(xhr, status, error) {
+                alert("데이터 로드에 실패했습니다: " + error);
+            }
+        });
+
         $("#updateBtn").on('click', function() {
             console.log($("#updateBtn").val());
             if (confirm("글을 등록하시겠습니까?")) {
-
+                if($("#title").val() == "") {
+                    alert("제목이 비었습니다.");
+                    return;
+                }
+                if($("#content").val() == "") {
+                    alert("제목이 비었습니다.");
+                    return;
+                }
                 let data = {
                     title: $("#title").val(),
                     content: $("#content").val(),
-
+                    id:boardId
                 };
                 $.ajax({
                     type: "POST",
-                    url: "/board/update",
+                    url: "/board/edit",
                     contentType: "application/json",
                     data: JSON.stringify(data),
                     success: function() {
-                        location.href = "/board/list";
+                        location.href = `/board/detail/${boardId}`;
                     }
                 });
             }

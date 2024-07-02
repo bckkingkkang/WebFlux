@@ -19,11 +19,13 @@ public class BoardApiController {
 
     private final BoardService boardService;
 
+    // 게시글 리스트 출력
     @GetMapping("/list")
     public Flux<BoardVO> getAllBoard() {
         return boardService.getAllBoard();
     }
 
+    // 게시글 상세 출력
     @GetMapping("/detail/{id}")
     public Mono<BoardVO> getBoardById(@PathVariable("id") String id) {
         return boardService.getBoardById(id);

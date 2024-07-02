@@ -17,6 +17,7 @@ public class BoardController {
 
     private final BoardService boardService;
 
+    // 게시글 리스트 화면
     @GetMapping("/board/list")
     public Mono<String> boardList() {
         return Mono.just("/board/list");
@@ -30,10 +31,8 @@ public class BoardController {
 
     // 게시글 수정 화면
     @GetMapping("/board/edit/{id}")
-    public Mono<String> editBoard(@PathVariable("id") String id, Model model) {
-        return boardService.getBoardById(id)
-                .doOnNext(board -> model.addAttribute("board", board))
-                .then(Mono.just("/board/edit"));
+    public Mono<String> editBoard() {
+        return Mono.just("/board/edit");
     }
 
     // 게시글 등록 화면
@@ -49,9 +48,9 @@ public class BoardController {
     }
 
     // 게시글 수정
-    @PostMapping("/board/update")
+    @PostMapping("/board/edit")
     public Mono<BoardVO> updateBoard(@RequestBody BoardVO boardVO) {
-        return boardService.updateBoard(boardVO.getId(), boardVO);
+        return boardService.updateBoard(boardVO);
     }
 
     // 게시글 삭제

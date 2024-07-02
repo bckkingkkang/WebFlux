@@ -38,8 +38,8 @@ public class BoardService {
                 .then(boardRepository.save(boardVO));
     }
 
-    public Mono<BoardVO> updateBoard(String id, BoardVO updateBoardVo) {
-        return boardRepository.findById(id)
+    public Mono<BoardVO> updateBoard(BoardVO updateBoardVo) {
+        return boardRepository.findById(updateBoardVo.getId())
                 .flatMap(existingBoard -> {
                     existingBoard.setTitle(updateBoardVo.getTitle());
                     existingBoard.setContent(updateBoardVo.getContent());
