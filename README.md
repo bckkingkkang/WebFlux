@@ -124,6 +124,9 @@ public class BoardVO {
   - [publishOn()과 subscribeOn()의 동작 이해 6](#publishon과-subscribeon의-동작-이해-6)
   - [Scheduler의 종류](#scheduler의-종류)
 - **[Context](#context)**
+  - API
+    - [자주 사용되는 Context API](#자주-사용되는-context-api)
+    - [자주 사용되는 ContextView API](#자주-사용되는-contextview-api)
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -641,7 +644,23 @@ public class SchedulerOperatorExample06 {
 - Context에서 값을 읽어오기 위해서는 읽기 전용 뷰인 ContextView를 사용한다.
 - ContextView는 Reactor Sequence에서 deferContextual() 또는 transformDeferredContextual()을 통해서 제공된다.
 
+### 자주 사용되는 Context API
+> Context API : Context에 데이터를 저장
+- **put(key, value)** : key/value 형태로 Context에 값을 쓴다.
+- **Context.of(key1, value1, key2, value2, ... )** : key/value 형태로 Context에 여러 개의 값을 쓴다.
+- **putAll(ContextView)** : 파라미터로 입력된 ContextView를 merge한다.
+  - 기존의 Context와 파라미터로 입력받은 ContextView의 데이터를 하나로 합쳐서 새로운 Context를 리턴
+- **delete(key)** : Context에서 key에 해당하는 value를 삭제한다.
 
+### 자주 사용되는 ContextView API
+> ContextView API : Context에 저장된 데이터를 읽어올 때
+- **get(key)** : ContextView에서 key에 해당하는 value를 반환한다.
+- **getOrEmpty(key)** : ContextView에서 key에 해당하는 value를 Optional로 래핑해서 반환한다.
+  - key에 해당하는 값이 없을 경우 비어있는 optional로 리턴 가능   
+- **getOrDefault(key, default value)** : ContextView에서 key에 해당하는 value를 가져온다. key에 해당하는 value가 없으면 default value를 가져온다.
+- **hasKey(key)** : ContextView에서 특정 key가 존재하는지 확인한다.
+- **isEmpty()** : Context가 비어있는지 확인한다.
+- **size()** : Context 내에 있는 key/value의 개수를 반환한다.
 
 
 
