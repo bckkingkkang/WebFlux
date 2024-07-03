@@ -123,6 +123,7 @@ public class BoardVO {
   - [publishOn()과 subscribeOn()의 동작 이해 5](#publishon과-subscribeon의-동작-이해-5)
   - [publishOn()과 subscribeOn()의 동작 이해 6](#publishon과-subscribeon의-동작-이해-6)
   - [Scheduler의 종류](#scheduler의-종류)
+- **[Context](#context)**
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -632,6 +633,13 @@ public class SchedulerOperatorExample06 {
     `new Single()`, `newParallel()`, `newboundedElastic()`   
   * Scheduler의 이름을 직접 지정할 수 있다.   
 
+
+## Context
+- Reactor Sequence 상에서 상태를 저장할 수 있고, 저장된 상태값을 Operator 체인에서 공유해서 사용할 수 있는 인터페이스이다.
+- Context에 저장할 상태값은 key, value 형태로 저장이 된다.
+- context에 값을 저장하기 위해서는 contextWrite()을 사용한다.
+- Context에서 값을 읽어오기 위해서는 읽기 전용 뷰인 ContextView를 사용한다.
+- ContextView는 Reactor Sequence에서 deferContextual() 또는 transformDeferredContextual()을 통해서 제공된다.
 
 
 
