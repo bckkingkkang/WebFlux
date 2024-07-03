@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import reactor.core.publisher.Mono;
 
+import java.util.Calendar;
+
 @Controller
 @Slf4j
 @RequiredArgsConstructor
@@ -29,6 +31,16 @@ public class MainController {
                     // 사용자 아이디, 인증 정보 출력
                     System.out.println("로그인된 유저 : " + userId);
                     System.out.println("authentication : "+authentication);
+
+                    /*Calendar now = Calendar.getInstance();
+                    int year = now.get(Calendar.YEAR);
+                    int month = now.get(Calendar.MONTH);
+                    int day = now.get(Calendar.DAY_OF_MONTH);
+                    int week = now.get(Calendar.DAY_OF_WEEK);
+                    int hour = now.get(Calendar.HOUR_OF_DAY);
+                    int minute = now.get(Calendar.MINUTE);
+                    int second = now.get(Calendar.SECOND);
+                    System.out.println("날짜" +year + month + day + week + hour + minute + second);*/
                 })
                 // "/main" 뷰 반환
                 .then(Mono.just("/main"));
