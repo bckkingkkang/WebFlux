@@ -1,4 +1,4 @@
-package com.example.kahyun.example.SchedulerExample;
+package com.example.kahyun.example.scheduler;
 
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;

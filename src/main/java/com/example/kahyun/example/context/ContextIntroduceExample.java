@@ -1,4 +1,4 @@
-package com.example.kahyun.example.ContextExample;
+package com.example.kahyun.example.context;
 
 /*
     Context 개념 설명 예제
