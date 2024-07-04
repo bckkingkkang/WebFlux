@@ -2,6 +2,7 @@
 ## 개요
 * **[검색, 설치 순서 정리](#검색-설치-순서-정리)**
 * **[개념 정리](#개념-정리)**
+* **[참고](#참고)**
 -------------------------------------------------------------
 ## 검색, 설치 순서 정리
 
@@ -699,7 +700,7 @@ public class SchedulerOperatorExample06 {
 
 
 -------------------------------------------------------------------------------------------------
-참고   
+## 참고   
 [Spring MVC vs Spring WebFlux](https://docs.spring.io/spring-framework/reference/web/webflux/new-framework.html)     
 [Reactive Microservices With Spring Boot](https://spring.io/reactive)   
 https://poiemaweb.com/
@@ -736,3 +737,30 @@ https://poiemaweb.com/
 #### Metric
 * 시간이 지남에 따라 변화하는 데이터를 의미한다. 메모리 사용률, CPU 사용률, 스레드 사용률 등등.. 시간에 따른 추이를 추적할 가치가 있는 데이터   
 [참고](https://lordofkangs.tistory.com/326)
+
+#### Reactor에서의 Debugging 방법
+- Debug 모드를 활성화하는 방법(Globally)
+- checkpoint() Operator를 사용하는 방법(Locally)
+- log() operator를 사용해서 Reactor Sequence에서 발생하는 Signal을 확인하는 방법
+
+> * **Debug 모드를 사용한 Debugging**      
+>> * Debug 모드 시, Operator의 stacktrace capturing을 통해 디버깅에 필요한 정보를 측정한다.    
+>> * Hooks.onOperatorDebug()를 통해서 Debug 모드를 활성화 할 수 있다.    
+>> * Hooks.onOperatorDebug()는 Operator 체인이 선언되기 전에 수행되어야 한다.    
+>> * Debug 모드를 활성화하면 Operator 체인에서 에러 발생 시, 에러가 발생한 Operator의 위치를 알려준다.    
+>> * 사용이 쉽지만 애플리케이션 내 모든 Operator의 assembly(New Flux or Mono)를 캡쳐하기 때문에 비용이 많이 든다.     
+> * **checkpoint() Operator를 사용하는 방법**
+>> * 특정 Operator 체인 내에서만 assembly stacktrace를 캡쳐한다.    
+>> * checkpoint(description)를 사용하면 에러 발생 시, checkpoint(description)를 추가한 지점의 assembly stacktrace를 생략하고 description을 통해 에러 발생 지점을 예상할 수 있다.    
+>> * checkpoint(description, true) = checkpoint() + checkpoint("description")    
+>>     * 에러 발생 시, 고유한 식별자 등의 description과 assembly stack trace(traceback)를 모두 출력한다.     
+> * **log() Operator 사용**    
+>> * Flux 또는 Mono에서 발생하는 signal event를 출력해준다. (onNext, onError, onComplete, subscriptions, cancellations, requests)
+>> * 여러 개의 log()를 사용할 수 있으며, Operator마다 전파되는 signal evnet를 확인할 수 있다.    
+>> * Custom Category를 입력해서 Operator마다 출력되는 signal event를 구분할 수 있다.
+>> * 에러 발생 시, stacktrace도 출력해준다.   
+
+#### Debugging 시 알아두면 좋은 용어
+- **stacktrace** : 호출된 메서드에 대한 Stack Frame에 대한 리포트
+- **assembly** : 새로운 Flux가 선언된 지점
+- **traceback** : 실패한 operator의 stacktrace를 캡쳐한 정보
