@@ -127,6 +127,7 @@ public class BoardVO {
   - API
     - [자주 사용되는 Context API](#자주-사용되는-context-api)
     - [자주 사용되는 ContextView API](#자주-사용되는-contextview-api)
+  - [Context의 특징](#context의-특징)    
 
 ---------------------------------------------------------------------------------------
 ### Reactive System
@@ -661,6 +662,29 @@ public class SchedulerOperatorExample06 {
 - **hasKey(key)** : ContextView에서 특정 key가 존재하는지 확인한다.
 - **isEmpty()** : Context가 비어있는지 확인한다.
 - **size()** : Context 내에 있는 key/value의 개수를 반환한다.
+
+### Context의 특징
+- Context는 각각의 Subscriber를 통해 Reactor Sequence에 연결되며 체인에서 각각의 Operator들이 실행 쓰레드가 달라도 연결된 Context에 접근할 수 있다.
+- Context는 체인의 맨 아래에서부터 위로 전파된다.
+  - Context는 Downstream에서 Upstream으로 전파된다.
+  - Operator 체인에서 Context read 메소드가 Context write 메소드 밑에 있을 경우에는 write 된 값을 read 할 수 없다.
+  - 일반적으로 Context에 write 할 때(데이터를 저장하는 경우)에는 Operator 체인의 마지막에 둔다.
+- 동일한 key에 대해서 write할 경우, 값을 덮어쓴다.
+- 메인 Operator 내부에서 sequence를 생성하는 flatMap() 같은 Operator 내에서 write 된 Context의 값은 Inner Sequence 내부에서만 유효하고, 외부 Operator 체인에서는 보이지 않는다.   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
